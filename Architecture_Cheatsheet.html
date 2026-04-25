@@ -172,12 +172,13 @@
 
     <div class="sec blue">
       <div class="sec-title">SOLID – Principes de conception</div>
-      <p><b>S</b> – Single Responsibility : 1 classe = 1 seule raison de changer.</p>
-      <p><b>O</b> – Open/Close : ouvert à l'extension, fermé à la modification.</p>
-      <p><b>L</b> – Liskov Substitution : sous-type remplaçable par type de base sans casser le comportement.</p>
-      <p><b>I</b> – Interface Segregation : plusieurs interfaces ciblées &gt; 1 interface géante. <span class="badge ba">QCM ★</span></p>
-      <p><b>D</b> – Dependency Inversion : dépendre des abstractions, PAS des implémentations concrètes.</p>
-      <div class="tip">⚠ Piège exam : ISP ≠ SRP. ISP = découper les interfaces pour les clients. SRP = découper les classes par responsabilité.</div>
+      <p><b>Pourquoi SOLID ?</b> Réduction dette technique · maintenabilité accrue · testabilité. <b>Corriger :</b> Refactoring (remonter/descendre méthodes/classes · modifier hiérarchie).</p>
+      <p><b>S – Single Responsibility (SRP)</b> : 1 classe = 1 seule raison de changer (1 mission). <em>Truc :</em> Si trop de choses → modifier risque tout casser (effet de bord). <em>Impact :</em> Code + facile à comprendre, modifier, tester (unit tests simples). <b>Cible : Classe (cohésion interne).</b></p>
+      <p><b>O – Open/Closed (OCP)</b> : Ouvert extension, fermé modification. <em>Analogie :</em> Legos (ajouter pièces par-dessus) vs fondre plastique existant. <em>Méthode :</em> Héritage/interfaces pour ajouter comportement sans toucher code source validé.</p>
+      <p><b>L – Liskov Substitution (LSP)</b> : Enfant (sous-type) remplace parent (type base) sans planter/changer logique. <em>Test :</em> Véhicule → Voiture, .rouler() se comporte comme attendu. <em>Règle :</em> Jamais forcer sous-classe à implémenter méthode inutile (ex: Autruche hérite Oiseau mais ne peut .voler()).</p>
+      <p><b>I – Interface Segregation (ISP)</b> : Plusieurs petites interfaces ciblées &gt; 1 interface géante. <em>Règle :</em> Classe ne doit PAS implémenter méthodes inutilisées. <em>Focus :</em> Découper pour le client (consommateur interface). <b>Cible : Interface (réduire couplage).</b> <span class="badge ba">QCM ★</span></p>
+      <p><b>D – Dependency Inversion (DIP)</b> : Dépendre abstractions (Interfaces/Classes abstraites), PAS implémentations concrètes. <em>Analogie :</em> "Boîte Noire" (on se fiche du comment, tant qu'on sait ce qui sort = contrat). <em>But :</em> Découpler modules haut niveau des détails techniques (changer DB ne casse pas logique affaires).</p>
+      <div class="tip">⚠ Piège exam : ISP ≠ SRP. ISP = segmenter INTERFACES pour clients. SRP = 1 classe = 1 responsabilité (cohésion).</div>
     </div>
 
     <div class="sec green">
