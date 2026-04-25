@@ -191,30 +191,127 @@
       </table>
     </div>
 
-    <div class="sec orange">
-      <div class="sec-title">Styles architecturaux – Monolithiques</div>
-      <p><b>Modulaire</b> – Non distribué sur réseau. Modules indépendants.</p>
-      <p><b>Pipe-Filter</b> – Flux de données ; sortie d'un = entrée du suivant.</p>
-      <p><b>MVC</b> – Modèle-Vue-Contrôleur. Séparation des responsabilités UI.</p>
-      <p><b>Blackboard</b> – Espace partagé, contrôle centralisé, module spécialisé requis.</p>
-      <div class="danger">✖ Ces styles = RÉPONSES REFUSÉES à l'exam si on demande un style "distribué".</div>
-    </div>
-
-    <div class="sec blue">
-      <div class="sec-title">Styles architecturaux – Distribués</div>
-      <p><b>Client-Serveur</b> – 2 entités ; client initie, serveur répond.</p>
-      <p><b>Multitier</b> – MVC déployé sur réseau (ex: 3-tier web). ⚠ Pas "layered".</p>
-      <p><b>Primaire-Secondaire</b> – Primaire divise la tâche → secondaires (réplicas). Parallélisme.</p>
-      <p><b>Peer-to-Peer (P2P)</b> – Pas de données centralisées. Tous pairs égaux. <span class="badge ba">QCM ★</span></p>
-      <p><b>Broker</b> – Ajout/modif dynamique de composants. Broker = service de découverte.</p>
-      <p><b>SOA / Microservices</b> – Tout est un service. Mentionner type de comm (SOAP/REST/RPC/GraphQL).</p>
-      <p><b>Event-Driven (EDA)</b> – Événements → déclenchent comportements via bus d'événements.</p>
+    <div class="sec gray full-width">
+      <div class="sec-title">Diagramme Styles Architecturaux</div>
+      <div class="g3" style="text-align:center;font-size:4.5pt;gap:2px;">
+        <div style="background:#e0e7ff;padding:2px;border:0.5px solid #6366f1;border-radius:2px;">
+          <b style="font-size:5pt;">MONOLITHIQUE</b><br>
+          <div style="background:#6366f1;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Mainframe</div>
+        </div>
+        <div style="background:#f0fdf4;padding:2px;border:0.5px solid #16a34a;border-radius:2px;">
+          <b style="font-size:5pt;">MODULAIRE</b><br>
+          <div style="background:#16a34a;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Pipe-Filter</div>
+          <div style="background:#16a34a;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">MVC</div>
+          <div style="background:#16a34a;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Blackboard</div>
+        </div>
+        <div style="background:#eff6ff;padding:2px;border:0.5px solid #2563eb;border-radius:2px;">
+          <b style="font-size:5pt;">DISTRIBUÉ</b><br>
+          <div style="background:#2563eb;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Client-Server</div>
+          <div style="background:#2563eb;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Primary-Secondary</div>
+          <div style="background:#2563eb;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Peer-to-Peer</div>
+          <div style="background:#2563eb;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Broker</div>
+          <div style="background:#2563eb;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">SOA</div>
+          <div style="background:#2563eb;color:#fff;margin:1px 0;padding:1px;border-radius:1px;">Event-Driven</div>
+        </div>
+      </div>
     </div>
 
     <div class="sec purple">
-      <div class="sec-title">Peer-to-Peer – Quand choisir ?</div>
-      <p>Partage direct sans serveur central · scalable naturellement (chaque pair = ressource) · réduit coûts infra · évite bottlenecks centralisés.</p>
-      <p><em>Ex. exam : Application de partage de fichiers sans serveur → P2P.</em></p>
+      <div class="sec-title">1. Mainframe (Monolithique)</div>
+      <p><b>Analogie :</b> Château Fort. Tout à l'intérieur (données, logique, murs). Si pierre tombe → château vulnérable.</p>
+      <p><b>Définition :</b> Architecture centralisée où traitement, logique et données fusionnés sur 1 unité calcul.</p>
+      <p><b>Avantages :</b> Conception simple · contrôle total données · performance élevée (pas latence comm) · sécurité max contre attaques externes.</p>
+      <p><b>Désavantages :</b> Évolutivité nulle (impossible agrandir 1 partie) · maintenance coûteuse (code entrelacé) · point unique défaillance.</p>
+      <p><b>Cas :</b> Systèmes bancaires legacy (millions transactions/jour, haute sécurité, aucune dépendance réseau) · Inventaire industriel massif (équipe restreinte, contrôle absolu, frais exécution min).</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">2. Pipe-Filter (Modulaire)</div>
+      <p><b>Analogie :</b> Chaîne Montage. Chaque poste (filtre) transforme produit et passe au suivant par tapis roulant (tuyau).</p>
+      <p><b>Définition :</b> Flux données unidirectionnel où chaque Filtre transforme données reçues et transmet au suivant via Tuyau.</p>
+      <p><b>Avantages :</b> Développement parallèle (plusieurs dev simultanément) · réutilisabilité composants · facilité ajout filtres · modules remplaçables.</p>
+      <p><b>Désavantages :</b> Surcharge performance (traversée chaque filtre) · perte efficacité (formatage données entre modules) · non interactif.</p>
+      <p><b>Cas :</b> Pipeline compilation (transformations indépendantes, composants réutilisables) · Traitement logs Unix (cat|grep|sort, flexibilité, tuyaux = synchronisateurs).</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">3. MVC – Model-View-Controller (Modulaire)</div>
+      <p><b>Analogie :</b> Restaurant. Client (Vue) commande → Serveur (Contrôleur) transmet → Cuisine (Modèle) prépare → Serveur ramène plat → Client mange.</p>
+      <p><b>Définition :</b> Séparation logique métier (Model), interface utilisateur (View), orchestration (Controller).</p>
+      <p><b>Composants :</b> <b>Model</b> (données + logique métier, notifie changements) · <b>View</b> (affichage, écoute Model) · <b>Controller</b> (reçoit input utilisateur, modifie Model/View).</p>
+      <p><b>Avantages :</b> Développement parallèle (équipes séparées UI/logique) · multiples vues même modèle · facilité tests unitaires · maintenabilité accrue.</p>
+      <p><b>Désavantages :</b> Complexité accrue (3 couches à gérer) · surcharge petits projets · couplage View-Controller parfois fort.</p>
+      <p><b>Cas :</b> Application web e-commerce (plusieurs interfaces même données, équipes séparées, évolution UI fréquente) · App mobile multiplateforme (logique partagée, vues iOS/Android distinctes).</p>
+      <div style="text-align:center;margin:3px 0;"><img src="photo3.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">4. Blackboard (Modulaire)</div>
+      <p><b>Analogie :</b> Tableau Noir Classe. Plusieurs experts écrivent hypothèses → Contrôleur lit → Choisit expert suivant → Répète jusqu'à solution.</p>
+      <p><b>Définition :</b> Résolution problèmes complexes sans solution déterministe. Sources connaissances (experts) collaborent via espace partagé (blackboard).</p>
+      <p><b>Composants :</b> <b>Blackboard</b> (mémoire partagée, état problème) · <b>Sources Connaissances</b> (modules experts indépendants) · <b>Contrôleur</b> (orchestrateur, sélectionne expert selon état).</p>
+      <p><b>Avantages :</b> Flexibilité (ajout/retrait experts facile) · tolérance pannes (1 expert échoue ≠ système plante) · expérimentation (tester stratégies différentes).</p>
+      <p><b>Désavantages :</b> Difficile tester/déboguer (comportement émergent) · pas de garantie solution · synchronisation blackboard = bottleneck · complexité contrôleur.</p>
+      <p><b>Cas :</b> Reconnaissance vocale (phonétique + syntaxe + sémantique collaborent, pas d'algo unique) · Diagnostic médical (symptômes → experts spécialisés proposent hypothèses, incertitude élevée).</p>
+      <div style="text-align:center;margin:3px 0;"><img src="photo4.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
+    </div>
+
+    <div class="sec blue">
+      <div class="sec-title">5. Client-Server (Distribué)</div>
+      <p><b>Analogie :</b> Restaurant Drive-In. Client commande (requête) → Serveur prépare → Serveur livre (réponse).</p>
+      <p><b>Définition :</b> Architecture 2 entités : Client (initie requêtes) et Serveur (fournit services/ressources). Communication réseau.</p>
+      <p><b>Avantages :</b> Centralisation données (gestion simplifiée) · contrôle accès sécurisé · maintenance serveur sans toucher clients · scalabilité verticale (améliorer serveur).</p>
+      <p><b>Désavantages :</b> Serveur = point unique défaillance · latence réseau · scalabilité limitée (serveur surchargé si trop clients) · coûts infrastructure serveur.</p>
+      <p><b>Cas :</b> Application bancaire (sécurité centralisée, transactions cohérentes, clients légers) · Serveur email (stockage centralisé, accès multi-appareils, gestion utilisateurs simplifiée).</p>
+    </div>
+
+    <div class="sec blue">
+      <div class="sec-title">6. Primary-Secondary (Distribué)</div>
+      <p><b>Analogie :</b> Chef Orchestre. Chef (Primary) distribue partitions → Musiciens (Secondary) jouent leur partie → Harmonie collective.</p>
+      <p><b>Définition :</b> Primary décompose tâche et délègue aux Secondary (réplicas/workers). Coordination centralisée, exécution parallèle.</p>
+      <p><b>Avantages :</b> Parallélisme (tâches simultanées) · tolérance pannes (si Secondary échoue, Primary réassigne) · scalabilité horizontale (ajout Secondary) · performance accrue.</p>
+      <p><b>Désavantages :</b> Primary = bottleneck · complexité synchronisation · surcharge communication Primary-Secondary · pas adapté si tâches interdépendantes.</p>
+      <p><b>Cas :</b> Réplication base données (Primary = écriture, Secondary = lecture, haute disponibilité) · Calcul distribué (traitement big data, MapReduce, tâches indépendantes parallélisables).</p>
+    </div>
+
+    <div class="sec blue">
+      <div class="sec-title">7. Peer-to-Peer / P2P (Distribué)</div>
+      <p><b>Analogie :</b> Potluck Party. Chaque invité apporte plat (ressource) et mange chez autres (consomme). Pas d'hôte central. <span class="badge ba">QCM ★</span></p>
+      <p><b>Définition :</b> Réseau décentralisé où chaque nœud (pair) = client ET serveur. Partage ressources direct sans autorité centrale.</p>
+      <p><b>Avantages :</b> Scalabilité naturelle (+ pairs = + ressources) · résilience (pas de point unique défaillance) · coûts réduits (pas serveur central) · autonomie pairs.</p>
+      <p><b>Désavantages :</b> Sécurité complexe (pairs non fiables) · découverte pairs difficile · performance variable (dépend pairs disponibles) · synchronisation données ardue.</p>
+      <p><b>Cas :</b> Partage fichiers (BitTorrent, pas serveur central, scalabilité infinie) · Blockchain (décentralisation, consensus distribué, résilience attaques).</p>
+    </div>
+
+    <div class="sec blue">
+      <div class="sec-title">8. Broker (Distribué)</div>
+      <p><b>Analogie :</b> Agent Immobilier. Acheteur cherche maison → Agent (Broker) trouve vendeurs → Met en contact → Transaction.</p>
+      <p><b>Définition :</b> Intermédiaire coordonne communication entre composants distribués. Découverte services, routage requêtes, découplage client-serveur.</p>
+      <p><b>Composants :</b> <b>Broker</b> (registre services, routage) · <b>Client</b> (demande service) · <b>Serveur</b> (fournit service, s'enregistre au Broker).</p>
+      <p><b>Avantages :</b> Découplage fort (client ignore localisation serveur) · ajout/modif services dynamique · transparence localisation · load balancing possible.</p>
+      <p><b>Désavantages :</b> Broker = point unique défaillance · latence ajoutée (hop supplémentaire) · complexité gestion Broker · coût infrastructure Broker.</p>
+      <p><b>Cas :</b> Middleware entreprise (CORBA, intégration systèmes hétérogènes, découverte services) · API Gateway (microservices, routage intelligent, authentification centralisée).</p>
+      <div style="text-align:center;margin:3px 0;"><img src="photo5.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
+    </div>
+
+    <div class="sec blue">
+      <div class="sec-title">9. SOA – Service-Oriented Architecture (Distribué)</div>
+      <p><b>Analogie :</b> Centre Commercial. Chaque boutique (service) = spécialité. Client visite boutiques nécessaires. Indépendance totale boutiques.</p>
+      <p><b>Définition :</b> Architecture où fonctionnalités exposées comme services indépendants, réutilisables, accessibles via réseau (SOAP/REST/RPC/GraphQL).</p>
+      <p><b>Avantages :</b> Réutilisabilité services · interopérabilité (langages/plateformes différents) · scalabilité service par service · maintenance isolée · agilité métier.</p>
+      <p><b>Désavantages :</b> Complexité orchestration · latence réseau · gouvernance services difficile · coûts infrastructure · dépendances services = risque cascade pannes.</p>
+      <p><b>Cas :</b> Plateforme e-commerce (services paiement, inventaire, expédition indépendants, réutilisables) · Microservices modernes (déploiement indépendant, équipes autonomes, CI/CD).</p>
+    </div>
+
+    <div class="sec blue">
+      <div class="sec-title">10. Event-Driven / EDA (Distribué)</div>
+      <p><b>Analogie :</b> Système Alarme Incendie. Détecteur fumée (producteur) détecte → Alarme sonne (bus événements) → Pompiers réagissent (consommateurs). Découplage total.</p>
+      <p><b>Définition :</b> Architecture réactive où composants communiquent via événements asynchrones. Producteurs émettent, consommateurs réagissent via bus d'événements.</p>
+      <p><b>Composants :</b> <b>Producteur</b> (émet événements) · <b>Bus Événements</b> (message broker, ex: Kafka, RabbitMQ) · <b>Consommateur</b> (écoute, réagit).</p>
+      <p><b>Avantages :</b> Découplage extrême (producteur ignore consommateurs) · scalabilité (ajout consommateurs facile) · réactivité temps réel · résilience (événements persistés).</p>
+      <p><b>Désavantages :</b> Complexité débogage (flux asynchrone) · ordre événements difficile garantir · duplication événements possible · latence bus · gestion erreurs complexe.</p>
+      <p><b>Cas :</b> IoT (capteurs émettent données → systèmes réagissent temps réel, scalabilité massive) · Notifications utilisateur (action utilisateur → événement → emails/push/SMS, découplage services).</p>
+      <div style="text-align:center;margin:3px 0;"><img src="photo6.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
     </div>
 
   </div>
