@@ -242,7 +242,7 @@
       <p><b>Avantages :</b> Développement parallèle (équipes séparées UI/logique) · multiples vues même modèle · facilité tests unitaires · maintenabilité accrue.</p>
       <p><b>Désavantages :</b> Complexité accrue (3 couches à gérer) · surcharge petits projets · couplage View-Controller parfois fort.</p>
       <p><b>Cas :</b> Application web e-commerce (plusieurs interfaces même données, équipes séparées, évolution UI fréquente) · App mobile multiplateforme (logique partagée, vues iOS/Android distinctes).</p>
-      <div style="text-align:center;margin:3px 0;"><img src="photo3.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
+      <div style="text-align:center;margin:3px 0;"></div>
     </div>
 
     <div class="sec green">
@@ -253,7 +253,7 @@
       <p><b>Avantages :</b> Flexibilité (ajout/retrait experts facile) · tolérance pannes (1 expert échoue ≠ système plante) · expérimentation (tester stratégies différentes).</p>
       <p><b>Désavantages :</b> Difficile tester/déboguer (comportement émergent) · pas de garantie solution · synchronisation blackboard = bottleneck · complexité contrôleur.</p>
       <p><b>Cas :</b> Reconnaissance vocale (phonétique + syntaxe + sémantique collaborent, pas d'algo unique) · Diagnostic médical (symptômes → experts spécialisés proposent hypothèses, incertitude élevée).</p>
-      <div style="text-align:center;margin:3px 0;"><img src="photo4.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
+      <div style="text-align:center;margin:3px 0;"></div>
     </div>
 
     <div class="sec blue">
@@ -291,7 +291,7 @@
       <p><b>Avantages :</b> Découplage fort (client ignore localisation serveur) · ajout/modif services dynamique · transparence localisation · load balancing possible.</p>
       <p><b>Désavantages :</b> Broker = point unique défaillance · latence ajoutée (hop supplémentaire) · complexité gestion Broker · coût infrastructure Broker.</p>
       <p><b>Cas :</b> Middleware entreprise (CORBA, intégration systèmes hétérogènes, découverte services) · API Gateway (microservices, routage intelligent, authentification centralisée).</p>
-      <div style="text-align:center;margin:3px 0;"><img src="photo5.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
+      <div style="text-align:center;margin:3px 0;"></div>
     </div>
 
     <div class="sec blue">
@@ -356,6 +356,110 @@
         <tr><td><b>Exemple</b></td><td>Django, Angular</td><td>AdBlock, Plugin Eclipse</td><td>Android, npm, CRAN</td></tr>
       </table>
       <div class="tip">⚠ IoC = clé pour distinguer framework (il t'appelle) vs bibliothèque (tu l'appelles). SRP = principe le plus pertinent pour plugins.</div>
+    </div>
+    
+    <!-- BIG DATA & NOSQL -->
+    <div class="sec gray full-width" style="background:#7c3aed;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">BIG DATA & NOSQL</div>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">I. Définitions et Caractéristiques (Les 3V)</div>
+      <p><b>Déf :</b> Un système est considéré "Big Data" s'il répond à au moins l'un des trois V à une échelle où les bases de données traditionnelles (SGBDR) échouent.</p>
+      <ul>
+        <li><b>Volume :</b> Quantité massive de données (Téraoctets, Pétaoctets, Exaoctets).</li>
+        <li><b>Vélocité :</b> Vitesse de génération, de traitement et d'analyse (temps réel, flux de capteurs, marchés financiers).</li>
+        <li><b>Variété :</b> Diversité des types de données :
+          <ul>
+            <li><b>Structurées :</b> BD relationnelles classiques.</li>
+            <li><b>Semi-structurées :</b> Fichiers JSON, XML, logs.</li>
+            <li><b>Non-structurées :</b> Texte libre, vidéo, images, audio.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">II. L'Écosystème NoSQL (Not Only SQL)</div>
+      <p><b>Déf :</b> Systèmes de gestion de bases de données distribuées qui n'exposent ni interface SQL standard, ni interface normalisée.</p>
+      <p><b>Caractéristiques Fondamentales :</b></p>
+      <ul>
+        <li><b>Scaling Out (Horizontal) :</b> Au lieu d'augmenter la puissance d'un serveur (Scaling Up), on distribue la charge sur de multiples serveurs bon marché.</li>
+        <li><b>Schéma Flexible :</b> Sans schéma (schemaless) ou avec schéma flexible pour gérer des données hétérogènes.</li>
+        <li><b>API Simples :</b> Utilisation d'API propres à chaque technologie (Get, Put, Delete) au lieu d'un langage standardisé.</li>
+      </ul>
+      <p><b>Théorème CAP (Le Compromis Inévitable) :</b></p>
+      <p>Dans un système distribué, on ne peut garantir que 2 des 3 propriétés suivantes simultanément :</p>
+      <ul>
+        <li><b>1. Consistance (C) :</b> Tous les nœuds voient la même donnée au même moment.</li>
+        <li><b>2. Disponibilité (A) :</b> Chaque requête reçoit une réponse (succès ou échec).</li>
+        <li><b>3. Tolérance au partitionnement (P) :</b> Le système continue de fonctionner malgré la perte de messages ou d'un nœud.</li>
+      </ul>
+      <div class="tip">💡 La plupart des systèmes NoSQL choisissent <b>AP</b> (Disponibilité et Partitionnement) et acceptent la <b>Consistance Éventuelle</b>.</div>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">III. Les 4 Modèles de Données NoSQL</div>
+      <p><b>1. Clé-Valeur (Key-Value)</b></p>
+      <ul>
+        <li><b>Déf :</b> Le modèle le plus simple. Une clé unique pointe vers une valeur (opaque pour la BD).</li>
+        <li><b>Propriétés :</b> Très efficace pour les applications simples ; stockage possible en mémoire vive pour une vitesse maximale.</li>
+        <li><b>Exemple :</b> Sessions utilisateurs, paniers d'achat, caches.</li>
+        <li><b>Technologies :</b> Redis, Riak, Amazon DynamoDB.</li>
+      </ul>
+      <hr>
+      <p><b>2. Document (Document Store)</b></p>
+      <ul>
+        <li><b>Déf :</b> Stocke les données sous forme de documents (fichiers) encodés (JSON, XML, BSON).</li>
+        <li><b>Propriétés :</b> Les documents peuvent être de tailles et complexités diverses. Les données liées sont souvent imbriquées.</li>
+        <li><b>Exemple :</b> Profils utilisateurs complexes, catalogues de produits avec attributs variables.</li>
+        <li><b>Technologies :</b> MongoDB, CouchDB.</li>
+      </ul>
+      <hr>
+      <p><b>3. Colonnes (Wide-Column / Column-Family)</b></p>
+      <ul>
+        <li><b>Déf :</b> Les données sont stockées par colonnes plutôt que par lignes.</li>
+        <li><b>Propriétés :</b> Permet de stocker des milliards de lignes avec des millions de colonnes. Très performant pour les agrégations de données massives.</li>
+        <li><b>Exemple :</b> Historiques de navigation, logs d'événements, séries temporelles.</li>
+        <li><b>Technologies :</b> Apache Cassandra, HBase.</li>
+      </ul>
+      <hr>
+      <p><b>4. Graphe (Graph Database)</b></p>
+      <ul>
+        <li><b>Déf :</b> Utilise des structures de graphes avec des nœuds (entités) et des arcs (relations).</li>
+        <li><b>Propriétés :</b> Optimisé pour traverser les relations complexes. Les propriétés sont stockées sur les nœuds et les arcs.</li>
+        <li><b>Exemple :</b> Réseaux sociaux (amis de mes amis), systèmes de recommandation, détection de fraude.</li>
+        <li><b>Technologies :</b> Neo4j, InfiniteGraph.</li>
+      </ul>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">IV. Analyse et Pipeline de Données</div>
+      <p><b>Les Étapes de l'Analyse Big Data :</b></p>
+      <ul>
+        <li><b>1. Acquisition :</b> Collecte depuis des sources variées (logs, réseaux sociaux, capteurs).</li>
+        <li><b>2. Extraction & Nettoyage :</b> Transformer la donnée brute en format exploitable.</li>
+        <li><b>3. Analyse & Modélisation :</b> Découvrir des patrons, faire des prédictions (Data Mining).</li>
+        <li><b>4. Interprétation :</b> Visualisation et aide à la décision.</li>
+      </ul>
+      <p><b>Types d'Analyse :</b></p>
+      <ul>
+        <li><b>Analyse de Contenu :</b> Traitement de texte (NLP) pour identifier des thèmes ou sentiments.</li>
+        <li><b>Analyse de Graphe :</b> Mesurer la centralité, l'influence ou détecter des communautés dans un réseau.</li>
+      </ul>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">V. Comparaison Récapitulative : SQL vs NoSQL</div>
+      <table>
+        <tr><th>Caractéristique</th><th>Bases Relationnelles (SQL)</th><th>Bases NoSQL</th></tr>
+        <tr><td><b>Structure</b></td><td>Tableaux rigides, colonnes fixes</td><td>Schéma flexible (Document, Graphe, etc.)</td></tr>
+        <tr><td><b>Scaling</b></td><td>Vertical (Scaling UP - Meilleur serveur)</td><td>Horizontal (Scaling OUT - Plus de serveurs)</td></tr>
+        <tr><td><b>Normalisation</b></td><td>Forte (évite la duplication)</td><td>Dénormalisation (on favorise la lecture rapide)</td></tr>
+        <tr><td><b>Complexité</b></td><td>Requêtes complexes avec JOIN (SQL)</td><td>API simples, JOIN souvent impossibles côté serveur</td></tr>
+        <tr><td><b>Consistance</b></td><td>ACID (Atomique, Cohérent, Isolé, Durable)</td><td>BASE (Basic Availability, Soft state, Eventual consistency)</td></tr>
+      </table>
+      <div class="tip">💡 <b>Astuce Examen :</b> Si on te demande de migrer une application locale vers une version distribuée, attention à l'anti-patron <b>Stovepipe System</b> si tu gardes des accès fichiers locaux au lieu d'utiliser une base NoSQL distribuée !</div>
     </div>
 
   </div>
