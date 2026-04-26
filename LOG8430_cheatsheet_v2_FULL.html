@@ -1,0 +1,563 @@
+<!-- PRINT SETTINGS: Margins = None, Paper = Letter, Print backgrounds = ON -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>LOG8430 – Aide-Mémoire Architecture Logicielle (Version Complète)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'IBM Plex Sans', sans-serif; font-size: 5.2pt; line-height: 1.05; color: #111; background: #fff; margin: 0; padding: 0; }
+  .container { width: 215.9mm; padding: 3mm; display: grid; grid-template-columns: 1fr 1fr; column-gap: 3px; align-content: start; }
+  .full-width { grid-column: 1 / -1; }
+  .sec { border: 0.4px solid #aaa; padding: 1.5px 2.5px; margin-bottom: 1.5px; break-inside: avoid; }
+  .sec-title { font-size: 5.8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 0.4px solid #aaa; margin-bottom: 1px; padding-bottom: 1px; }
+  .blue { border-color: #2563eb; } .blue .sec-title { color: #1d4ed8; background: #eff6ff; }
+  .green { border-color: #16a34a; } .green .sec-title { color: #15803d; background: #f0fdf4; }
+  .orange { border-color: #d97706; } .orange .sec-title { color: #b45309; background: #fffbeb; }
+  .red { border-color: #dc2626; } .red .sec-title { color: #b91c1c; background: #fef2f2; }
+  .purple { border-color: #7c3aed; } .purple .sec-title { color: #6d28d9; background: #f5f3ff; }
+  .teal { border-color: #0d9488; } .teal .sec-title { color: #0f766e; background: #f0fdfa; }
+  .gray { border-color: #6b7280; } .gray .sec-title { color: #374151; background: #f9fafb; }
+  b { font-weight: 700; } em { font-style: italic; color: #555; }
+  table { width: 100%; border-collapse: collapse; font-size: 4.8pt; margin-top: 1px; }
+  th { background: #1e293b; color: #fff; font-weight: 700; padding: 1px 2px; text-align: left; }
+  td { padding: 0.8px 2px; border-bottom: 0.3px solid #ddd; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .badge { display: inline-block; font-size: 4pt; font-weight: 700; padding: 0px 2px; border-radius: 2px; color: #fff; margin-right: 1px; }
+  .ba { background: #2563eb; } .bg { background: #16a34a; } .br { background: #dc2626; }
+  .tip { background: #fef9c3; border-left: 2px solid #eab308; padding: 1px 2px; margin-top: 1px; font-size: 4.8pt; }
+  .danger { background: #fee2e2; border-left: 2px solid #dc2626; padding: 1px 2px; margin-top: 1px; font-size: 4.8pt; }
+  ul { list-style: none; padding-left: 4px; } ul li::before { content: "▸ "; color: #6b7280; font-size: 4pt; }
+  p { margin-bottom: 0.8px; }
+  code { font-family: 'Courier New', monospace; font-size: 4.5pt; background: #f1f5f9; padding: 0px 1px; }
+  hr { border: none; border-top: 0.5px solid #ddd; margin: 1px 0; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } @page { size: letter; margin: 0; } }
+</style>
+</head>
+<body>
+
+<!-- NOTE: This is the FULL version with ALL content from markdown files, not summarized -->
+
+<div class="container">
+    <div class="sec blue">
+      <div class="sec-title">SOLID – Principes de Conception</div>
+      <p><b>Pourquoi SOLID ?</b> Réduction dette technique · maintenabilité accrue · testabilité. <b>Corriger :</b> Refactoring (remonter/descendre méthodes/classes · modifier hiérarchie).</p>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">S – Single Responsibility (SRP)</div>
+      <p><b>Principe :</b> 1 classe = 1 seule raison de changer (1 mission).</p>
+      <p><b>Truc :</b> Si trop de choses → modifier risque tout casser (effet de bord).</p>
+      <p><b>Impact :</b> Code + facile à comprendre, modifier, tester (unit tests simples).</p>
+      <p><b>Cible : Classe (cohésion interne).</b></p>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">O – Open/Closed (OCP)</div>
+      <p><b>Principe :</b> Ouvert extension, fermé modification.</p>
+      <p><b>Analogie :</b> Legos (ajouter pièces par-dessus) vs fondre plastique existant.</p>
+      <p><b>Méthode :</b> Héritage/interfaces pour ajouter comportement sans toucher code source validé.</p>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">L – Liskov Substitution (LSP)</div>
+      <p><b>Principe :</b> Enfant (sous-type) remplace parent (type base) sans planter/changer logique.</p>
+      <p><b>Test :</b> Véhicule → Voiture, <code>.rouler()</code> se comporte comme attendu.</p>
+      <p><b>Règle :</b> Jamais forcer sous-classe à implémenter méthode inutile (ex: Autruche hérite Oiseau mais ne peut <code>.voler()</code>).</p>
+    </div>
+  </div>
+  
+  <div class="col">
+    <div class="sec blue">
+      <div class="sec-title">I – Interface Segregation (ISP)</div>
+      <p><b>Principe :</b> Plusieurs petites interfaces ciblées &gt; 1 interface géante.</p>
+      <p><b>Règle :</b> Classe ne doit PAS implémenter méthodes inutilisées.</p>
+      <p><b>Focus :</b> Découper pour le client (consommateur interface).</p>
+      <p><b>Cible : Interface (réduire couplage).</b> <span class="badge ba">QCM ★</span></p>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">D – Dependency Inversion (DIP)</div>
+      <p><b>Principe :</b> Dépendre abstractions (Interfaces/Classes abstraites), PAS implémentations concrètes.</p>
+      <p><b>Analogie :</b> "Boîte Noire" (on se fiche du comment, tant qu'on sait ce qui sort = contrat).</p>
+      <p><b>But :</b> Découpler modules haut niveau des détails techniques (changer DB ne casse pas logique affaires).</p>
+    </div>
+    
+    <div class="sec red">
+      <div class="sec-title">⚠ Piège Examen</div>
+      <div class="danger"><b>ISP ≠ SRP</b><br>• ISP = segmenter INTERFACES pour clients<br>• SRP = 1 classe = 1 responsabilité (cohésion)</div>
+    </div>
+    
+    <div class="sec gray">
+      <div class="sec-title">Architecture vs. Conception</div>
+      <table>
+        <tr><th>Architecture</th><th>Conception</th></tr>
+        <tr><td>Haut niveau, squelette, déploiement</td><td>Bas niveau, code, classes, méthodes</td></tr>
+        <tr><td>Exigences <b>fonctionnelles + non-fonctionnelles</b></td><td>Principalement <b>fonctionnelles</b></td></tr>
+        <tr><td>Communication entre composants</td><td>Portée des classes, implémentation</td></tr>
+      </table>
+    </div>
+    
+    <!-- FRAMEWORKS, PLUGINS, ÉCOSYSTÈMES -->
+    <div class="sec blue">
+      <div class="sec-title">1. Cadriciels (Frameworks)</div>
+      <p><b>Définition :</b> Architecture semi-implémentée, générique et agnostique. Squelette réutilisable.</p>
+      <p><b>Analogie :</b> Centre commercial (Structure fixe + espaces vides).</p>
+      <p><b>Composants :</b></p>
+      <ul>
+        <li><b>Frozen Spots :</b> Modules concrets (fondations). Immuables.</li>
+        <li><b>Hot Spots :</b> Modules abstraits (emplacements). À étendre par le dév.</li>
+      </ul>
+      <p><b>Inversion de Contrôle (IoC) / Principe Hollywood :</b> "Ne nous appelez pas, on vous appellera". Le cadre dicte le flux.</p>
+      <p><b>Propriétés & Principes :</b></p>
+      <ul>
+        <li><b>DIP / OCP :</b> Ouvert à l'extension, fermé à la modification.</li>
+        <li><b>Standardisation :</b> Structure et flux uniformes.</li>
+      </ul>
+      <p><b>Études de cas :</b></p>
+      <ul>
+        <li><b>AngularJS (Web JS) :</b> Architecture <b>MV*</b>. Automatise le <em>data-binding</em>. Très testable mais complexe.</li>
+        <li><b>Django (Python) :</b> Architecture <b>MVT</b> (Model-View-Template). Focus sur la sécurité et le développement rapide (DRY).</li>
+      </ul>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">2. Plugiciels (Plugins)</div>
+      <p><b>Définition :</b> Composant qui ajoute une fonction à un système hôte sans le modifier (<b>OCP</b>).</p>
+      <p><b>Architecture :</b> <b>Microkernel</b> (Noyau minimal). Le système de base est <b>atomique</b> (fonctionne seul).</p>
+      <p><b>Principes clés :</b></p>
+      <ul>
+        <li><b>SRP (Single Responsibility) :</b> C'est le principe le plus pertinent. Une mission unique.</li>
+        <li><b>Inversion de Dépendance :</b> Le système définit l'interface, le plugin l'implémente.</li>
+      </ul>
+      <p><b>Désavantages :</b> Maintenabilité réduite (fragilité aux mises à jour du système) et conflits possibles.</p>
+      <p><b>Étude de cas :</b></p>
+      <ul>
+        <li><b>Eclipse (IDE) :</b> Noyau minimal où tout est plugin. Priorise la <b>rétrocompatibilité</b> (supporter les vieilles versions), ce qui complexifie la maintenance du cœur.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="col">
+    <div class="sec blue">
+      <div class="sec-title">3. Écosystèmes Logiciels & Changements Disruptifs</div>
+      <p><b>Définition :</b> Collection de modules partageant un socle commun (Langage, Plateforme).</p>
+      <p><b>Propriétés :</b> Interdépendance, Maintenabilité (qualité variable car n'importe qui contribue), Effet de réseau.</p>
+      <p><b>Étude sur la gestion du changement (Breaking Changes) :</b></p>
+      <p><b>Le dilemme du coût :</b> Un petit changement chez le développeur (mainteneur) peut causer une charge de travail massive pour des milliers d'utilisateurs (développeurs tiers).</p>
+      <p><b>Stratégies de négociation :</b></p>
+      <ul>
+        <li><b>1. Mainteneur assume le coût :</b> Limite les changements pour protéger les utilisateurs (Eclipse).</li>
+        <li><b>2. Utilisateur assume le coût :</b> Doit s'adapter rapidement aux ruptures (Node.js).</li>
+        <li><b>3. Coût partagé :</b> Collaboration via des volontaires et dépôts centralisés (R/CRAN).</li>
+      </ul>
+      <p><b>Valeurs des communautés spécifiques :</b></p>
+      <ul>
+        <li><b>Eclipse :</b> Priorité absolue à la <b>stabilité</b>. Facilite un accès rapide aux outils pour l'utilisateur final.</li>
+        <li><b>R / CRAN :</b> Priorité au <b>partage et à la validation</b>. Dépôt distribué de paquets statistiques où la responsabilité est partagée.</li>
+        <li><b>Node.js :</b> Priorité à la <b>vitesse de développement</b>. Écosystème géré par <b>npm</b> (très dynamique, changements fréquents).</li>
+      </ul>
+      <p><b>Autre cas :</b></p>
+      <ul>
+        <li><b>Android :</b> Hybride (OS + Cadriciel + Écosystème). Architecture <b>MVVM</b>. Modulaire et sécuritaire.</li>
+      </ul>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">Comparaison Globale (Examen)</div>
+      <table>
+        <tr><th>Caractéristique</th><th>Cadriciel</th><th>Plugiciel</th><th>Écosystème</th></tr>
+        <tr><td><b>Rôle</b></td><td>Squelette / Structure</td><td>Extension de fonction</td><td>Environnement global</td></tr>
+        <tr><td><b>Principe Roi</b></td><td><b>IoC</b> (Inversion de Contrôle)</td><td><b>SRP</b> (Responsabilité Unique)</td><td><b>Effet de réseau</b></td></tr>
+        <tr><td><b>Indépendance</b></td><td>L'app ne tourne pas sans lui</td><td>Le système hôte tourne sans lui</td><td>Modules interdépendants</td></tr>
+        <tr><td><b>Gestion Changement</b></td><td>Rigide (Frozen Spots)</td><td>Fragile (Microkernel)</td><td>Stratégies variables</td></tr>
+        <tr><td><b>Focus</b></td><td>Productivité du Développeur</td><td>Expérience Utilisateur</td><td>Communauté & Marché</td></tr>
+        <tr><td><b>Exemple</b></td><td>Django, Angular</td><td>AdBlock, Plugin Eclipse</td><td>Android, npm, CRAN</td></tr>
+      </table>
+    </div>
+    
+    <!-- AOP (PROGRAMMATION ORIENTÉE ASPECT) -->
+    <div class="sec blue">
+      <div class="sec-title">I. Fondamentaux et Paradigme</div>
+      <p><b>Définitions Clés :</b></p>
+      <ul>
+        <li><b>AOP (Aspect-Oriented Programming) :</b> Paradigme de programmation visant à modéliser les fonctionnalités transversales sans affecter les classes du domaine.</li>
+        <li><b>Fonctionnalité Transversale (Cross-cutting Concern - CCC) :</b> Logique qui s'éparpille dans plusieurs modules ou classes (ex: sécurité, logging).</li>
+        <li><b>Niveau d'abstraction :</b> L'AOP est plus abstrait que le paradigme Orienté Objet (OO), se situant au-dessus dans la hiérarchie des langages.</li>
+      </ul>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">Les Problèmes de l'OO (Pourquoi l'AOP ?)</div>
+      <p>L'approche OO classique pour les CCC mène à :</p>
+      <ul>
+        <li><b>Éparpillement (Code Scattering) :</b> Une même fonctionnalité est copiée dans plusieurs modules.</li>
+        <li><b>Confusion (Code Tangling) :</b> Une classe contient plusieurs logiques mélangées (métier + technique), réduisant sa cohésion.</li>
+        <li><b>Duplication (Code Cloning) :</b> Inévitable si on doit invoquer manuellement un service dans chaque fonction.</li>
+        <li><b>Résultat :</b> Modules moins indépendants et réutilisabilité diminuée.</li>
+      </ul>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">II. Éléments du Modèle AOP</div>
+      <p>L'AOP introduit trois concepts fondamentaux pour isoler la logique :</p>
+      <table>
+        <tr><th>Élément</th><th>Définition</th><th>Analogie / Rôle</th></tr>
+        <tr><td><b>Join Point</b></td><td>Point précis dans le déroulement du programme (exécution d'une méthode, accès à un attribut)</td><td>"Le moment où..."</td></tr>
+        <tr><td><b>Pointcut</b></td><td>Expression (motif) qui capture et identifie un ou plusieurs Join Points où l'aspect doit agir</td><td>"La cible"</td></tr>
+        <tr><td><b>Advice</b></td><td>Code (méthode) qui implémente la tâche commune à exécuter lors de l'activation du Pointcut</td><td>"L'action à faire"</td></tr>
+        <tr><td><b>Aspect</b></td><td>Module regroupant les Pointcuts et les Advices pour une fonctionnalité donnée</td><td>"L'unité modulaire"</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">Le Processus de Tissage (Weaving)</div>
+      <p>Le <b>Code Weaving</b> est le processus convertissant les aspects en code compilable par un compilateur standard.</p>
+      <ul>
+        <li><b>Inputs :</b> Base Code (OO) + Aspect Code</li>
+        <li><b>Output :</b> Modified Base Code</li>
+        <li><b>Weaver :</b> Outil (ex: compilateur <code>ajc</code> pour AspectJ) qui injecte l'aspect dans le code source ou le bytecode.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="col">
+    <div class="sec blue">
+      <div class="sec-title">III. Types de Crosscutting (Fonctionnement)</div>
+      <p><b>1. Crosscutting Dynamique</b></p>
+      <p>Intercepte des événements lors de l'exécution du programme.</p>
+      <ul>
+        <li><b>Interceptions communes :</b> Avant/Après un appel, lors d'une exception.</li>
+      </ul>
+      <p><b>Types d'Advices :</b></p>
+      <ul>
+        <li><code>before()</code> : S'exécute juste avant le join point.</li>
+        <li><code>after()</code> : S'exécute juste après le join point.</li>
+        <li><code>around()</code> : Enveloppe le join point; peut modifier les arguments ou empêcher l'exécution.</li>
+      </ul>
+      <hr>
+      <p><b>2. Crosscutting Statique (Introduction)</b></p>
+      <p>Modifie la structure statique des classes au moment de la compilation.</p>
+      <ul>
+        <li><b>Ajout de membres :</b> Introduire de nouveaux attributs ou méthodes dans une classe existante via un aspect.</li>
+        <li><b>Modification de hiérarchie :</b> Forcer une classe à implémenter une interface ou à dériver d'une autre classe (<code>declare parents</code>).</li>
+        <li><b>Contrôle de compilation :</b> Générer des erreurs ou avertissements personnalisés basés sur des motifs de code (<code>declare error</code> / <code>declare warning</code>).</li>
+      </ul>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">IV. Domaines d'Application et Cas d'Usage</div>
+      <ul>
+        <li><b>Gestion technique :</b> Authentification, Logging, Audit, Mise en cache, Performance.</li>
+        <li><b>Validation :</b> Utiliser des annotations (ex: <code>@Required</code>) interceptées par un aspect pour valider les paramètres avant l'exécution.</li>
+        <li><b>Tests Unitaires :</b> Faciliter le <b>Mocking</b> en interceptant des méthodes via <code>@Mock</code> pour retourner des données factices sans modifier le code métier.</li>
+        <li><b>Conformité Architecturale :</b> Empêcher les appels interdits entre couches (ex: la logique métier ne peut pas appeler l'UI) en déclarant une <code>declare error</code> à la compilation.</li>
+        <li><b>Design Patterns :</b> L'AOP améliore l'implémentation de 17/23 patrons du GoF (meilleure localité et réutilisation).</li>
+      </ul>
+    </div>
+    
+    <div class="sec blue">
+      <div class="sec-title">V. AspectJ : Résumé Syntaxique et Règles</div>
+      <table>
+        <tr><th>Caractéristique</th><th>Aspect</th><th>Classe</th></tr>
+        <tr><td><b>Attributs/Méthodes</b></td><td>Oui</td><td>Oui</td></tr>
+        <tr><td><b>Abstrait</b></td><td>Oui</td><td>Oui</td></tr>
+        <tr><td><b>Instanciation</b></td><td><b>Non</b> (géré par le runtime)</td><td>Oui</td></tr>
+        <tr><td><b>Privilèges</b></td><td>Peut accéder aux membres <code>private</code> (<code>privileged aspect</code>)</td><td>Non (encapsulation stricte)</td></tr>
+        <tr><td><b>Héritage</b></td><td>Ne peut pas dériver d'un aspect <b>concret</b></td><td>Peut dériver d'une classe concrète</td></tr>
+      </table>
+    </div>
+    
+    <!-- STYLES ARCHITECTURAUX -->
+    <div class="sec green">
+      <div class="sec-title">Diagramme des Styles Architecturaux</div>
+      <p><b>MONOLITHIQUE :</b> Mainframe</p>
+      <p><b>MODULAIRE :</b> Pipe-Filter · MVC · Blackboard</p>
+      <p><b>DISTRIBUÉ :</b> Client-Server · Primary-Secondary · Peer-to-Peer · Broker · SOA · Event-Driven</p>
+    </div>
+    
+    <div class="sec green">
+      <div class="sec-title">1. Mainframe (Monolithique)</div>
+      <p><b>Analogie :</b> Château Fort. Tout à l'intérieur (données, logique, murs). Si pierre tombe → château vulnérable.</p>
+      <p><b>Définition :</b> Architecture centralisée où traitement, logique et données fusionnés sur 1 unité calcul.</p>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Conception simple</li>
+        <li>Contrôle total données</li>
+        <li>Performance élevée (pas latence comm)</li>
+        <li>Sécurité max contre attaques externes</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Évolutivité nulle (impossible agrandir 1 partie)</li>
+        <li>Maintenance coûteuse (code entrelacé)</li>
+        <li>Point unique défaillance</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Systèmes bancaires legacy :</b> Millions transactions/jour, haute sécurité, aucune dépendance réseau</li>
+        <li><b>Inventaire industriel massif :</b> Équipe restreinte, contrôle absolu, frais exécution min</li>
+      </ul>
+    </div>
+    
+    <div class="sec green">
+      <div class="sec-title">2. Pipe-Filter (Modulaire)</div>
+      <p><b>Analogie :</b> Chaîne Montage. Chaque poste (filtre) transforme produit et passe au suivant par tapis roulant (tuyau).</p>
+      <p><b>Définition :</b> Flux données unidirectionnel où chaque Filtre transforme données reçues et transmet au suivant via Tuyau.</p>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Développement parallèle (plusieurs dev simultanément)</li>
+        <li>Réutilisabilité composants</li>
+        <li>Facilité ajout filtres</li>
+        <li>Modules remplaçables</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Surcharge performance (traversée chaque filtre)</li>
+        <li>Perte efficacité (formatage données entre modules)</li>
+        <li>Non interactif</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Pipeline compilation :</b> Transformations indépendantes, composants réutilisables</li>
+        <li><b>Traitement logs Unix :</b> cat|grep|sort, flexibilité, tuyaux = synchronisateurs</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="col">
+    <div class="sec green">
+      <div class="sec-title">3. MVC – Model-View-Controller (Modulaire)</div>
+      <p><b>Analogie :</b> Restaurant. Client (Vue) commande → Serveur (Contrôleur) transmet → Cuisine (Modèle) prépare → Serveur ramène plat → Client mange.</p>
+      <p><b>Définition :</b> Séparation logique métier (Model), interface utilisateur (View), orchestration (Controller).</p>
+      <p><b>Composants :</b></p>
+      <ul>
+        <li><b>Model :</b> Données + logique métier, notifie changements</li>
+        <li><b>View :</b> Affichage, écoute Model</li>
+        <li><b>Controller :</b> Reçoit input utilisateur, modifie Model/View</li>
+      </ul>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Développement parallèle (équipes séparées UI/logique)</li>
+        <li>Multiples vues même modèle</li>
+        <li>Facilité tests unitaires</li>
+        <li>Maintenabilité accrue</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Complexité accrue (3 couches à gérer)</li>
+        <li>Surcharge petits projets</li>
+        <li>Couplage View-Controller parfois fort</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Application web e-commerce :</b> Plusieurs interfaces même données, équipes séparées, évolution UI fréquente</li>
+        <li><b>App mobile multiplateforme :</b> Logique partagée, vues iOS/Android distinctes</li>
+      </ul>
+    </div>
+    
+    <div class="sec green">
+      <div class="sec-title">4. Blackboard (Modulaire)</div>
+      <p><b>Analogie :</b> Tableau Noir Classe. Plusieurs experts écrivent hypothèses → Contrôleur lit → Choisit expert suivant → Répète jusqu'à solution.</p>
+      <p><b>Définition :</b> Résolution problèmes complexes sans solution déterministe. Sources connaissances (experts) collaborent via espace partagé (blackboard).</p>
+      <p><b>Composants :</b></p>
+      <ul>
+        <li><b>Blackboard :</b> Mémoire partagée, état problème</li>
+        <li><b>Sources Connaissances :</b> Modules experts indépendants</li>
+        <li><b>Contrôleur :</b> Orchestrateur, sélectionne expert selon état</li>
+      </ul>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Flexibilité (ajout/retrait experts facile)</li>
+        <li>Tolérance pannes (1 expert échoue ≠ système plante)</li>
+        <li>Expérimentation (tester stratégies différentes)</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Difficile tester/déboguer (comportement émergent)</li>
+        <li>Pas de garantie solution</li>
+        <li>Synchronisation blackboard = bottleneck</li>
+        <li>Complexité contrôleur</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Reconnaissance vocale :</b> Phonétique + syntaxe + sémantique collaborent, pas d'algo unique</li>
+        <li><b>Diagnostic médical :</b> Symptômes → experts spécialisés proposent hypothèses, incertitude élevée</li>
+      </ul>
+    </div>
+    
+    <!-- STYLES DISTRIBUÉS (suite) -->
+    <div class="sec green">
+      <div class="sec-title">5. Client-Server (Distribué)</div>
+      <p><b>Analogie :</b> Restaurant Drive-In. Client commande (requête) → Serveur prépare → Serveur livre (réponse).</p>
+      <p><b>Définition :</b> Architecture 2 entités : Client (initie requêtes) et Serveur (fournit services/ressources). Communication réseau.</p>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Centralisation données (gestion simplifiée)</li>
+        <li>Contrôle accès sécurisé</li>
+        <li>Maintenance serveur sans toucher clients</li>
+        <li>Scalabilité verticale (améliorer serveur)</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Serveur = point unique défaillance</li>
+        <li>Latence réseau</li>
+        <li>Scalabilité limitée (serveur surchargé si trop clients)</li>
+        <li>Coûts infrastructure serveur</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Application bancaire :</b> Sécurité centralisée, transactions cohérentes, clients légers</li>
+        <li><b>Serveur email :</b> Stockage centralisé, accès multi-appareils, gestion utilisateurs simplifiée</li>
+      </ul>
+    </div>
+    
+    <div class="sec green">
+      <div class="sec-title">6. Primary-Secondary (Distribué)</div>
+      <p><b>Analogie :</b> Chef Orchestre. Chef (Primary) distribue partitions → Musiciens (Secondary) jouent leur partie → Harmonie collective.</p>
+      <p><b>Définition :</b> Primary décompose tâche et délègue aux Secondary (réplicas/workers). Coordination centralisée, exécution parallèle.</p>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Parallélisme (tâches simultanées)</li>
+        <li>Tolérance pannes (si Secondary échoue, Primary réassigne)</li>
+        <li>Scalabilité horizontale (ajout Secondary)</li>
+        <li>Performance accrue</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Primary = bottleneck</li>
+        <li>Complexité synchronisation</li>
+        <li>Surcharge communication Primary-Secondary</li>
+        <li>Pas adapté si tâches interdépendantes</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Réplication base données :</b> Primary = écriture, Secondary = lecture, haute disponibilité</li>
+        <li><b>Calcul distribué :</b> Traitement big data, MapReduce, tâches indépendantes parallélisables</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="col">
+    <div class="sec green">
+      <div class="sec-title">7. Peer-to-Peer / P2P (Distribué)</div>
+      <p><b>Analogie :</b> Potluck Party. Chaque invité apporte plat (ressource) et mange chez autres (consomme). Pas d'hôte central. <span class="badge ba">QCM ★</span></p>
+      <p><b>Définition :</b> Réseau décentralisé où chaque nœud (pair) = client ET serveur. Partage ressources direct sans autorité centrale.</p>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Scalabilité naturelle (+ pairs = + ressources)</li>
+        <li>Résilience (pas de point unique défaillance)</li>
+        <li>Coûts réduits (pas serveur central)</li>
+        <li>Autonomie pairs</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Sécurité complexe (pairs non fiables)</li>
+        <li>Découverte pairs difficile</li>
+        <li>Performance variable (dépend pairs disponibles)</li>
+        <li>Synchronisation données ardue</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Partage fichiers :</b> BitTorrent, pas serveur central, scalabilité infinie</li>
+        <li><b>Blockchain :</b> Décentralisation, consensus distribué, résilience attaques</li>
+      </ul>
+    </div>
+    
+    <div class="sec green">
+      <div class="sec-title">8. Broker (Distribué)</div>
+      <p><b>Analogie :</b> Agent Immobilier. Acheteur cherche maison → Agent (Broker) trouve vendeurs → Met en contact → Transaction.</p>
+      <p><b>Définition :</b> Intermédiaire coordonne communication entre composants distribués. Découverte services, routage requêtes, découplage client-serveur.</p>
+      <p><b>Composants :</b></p>
+      <ul>
+        <li><b>Broker :</b> Registre services, routage</li>
+        <li><b>Client :</b> Demande service</li>
+        <li><b>Serveur :</b> Fournit service, s'enregistre au Broker</li>
+      </ul>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Découplage fort (client ignore localisation serveur)</li>
+        <li>Ajout/modif services dynamique</li>
+        <li>Transparence localisation</li>
+        <li>Load balancing possible</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Broker = point unique défaillance</li>
+        <li>Latence ajoutée (hop supplémentaire)</li>
+        <li>Complexité gestion Broker</li>
+        <li>Coût infrastructure Broker</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Middleware entreprise :</b> CORBA, intégration systèmes hétérogènes, découverte services</li>
+        <li><b>API Gateway :</b> Microservices, routage intelligent, authentification centralisée</li>
+      </ul>
+    </div>
+    
+    <div class="sec green">
+      <div class="sec-title">9. SOA – Service-Oriented Architecture (Distribué)</div>
+      <p><b>Analogie :</b> Centre Commercial. Chaque boutique (service) = spécialité. Client visite boutiques nécessaires. Indépendance totale boutiques.</p>
+      <p><b>Définition :</b> Architecture où fonctionnalités exposées comme services indépendants, réutilisables, accessibles via réseau (SOAP/REST/RPC/GraphQL).</p>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Réutilisabilité services</li>
+        <li>Interopérabilité (langages/plateformes différents)</li>
+        <li>Scalabilité service par service</li>
+        <li>Maintenance isolée</li>
+        <li>Agilité métier</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Complexité orchestration</li>
+        <li>Latence réseau</li>
+        <li>Gouvernance services difficile</li>
+        <li>Coûts infrastructure</li>
+        <li>Dépendances services = risque cascade pannes</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>Plateforme e-commerce :</b> Services paiement, inventaire, expédition indépendants, réutilisables</li>
+        <li><b>Microservices modernes :</b> Déploiement indépendant, équipes autonomes, CI/CD</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="col">
+    <div class="sec green">
+      <div class="sec-title">10. Event-Driven / EDA (Distribué)</div>
+      <p><b>Analogie :</b> Système Alarme Incendie. Détecteur fumée (producteur) détecte → Alarme sonne (bus événements) → Pompiers réagissent (consommateurs). Découplage total.</p>
+      <p><b>Définition :</b> Architecture réactive où composants communiquent via événements asynchrones. Producteurs émettent, consommateurs réagissent via bus d'événements.</p>
+      <p><b>Composants :</b></p>
+      <ul>
+        <li><b>Producteur :</b> Émet événements</li>
+        <li><b>Bus Événements :</b> Message broker, ex: Kafka, RabbitMQ</li>
+        <li><b>Consommateur :</b> Écoute, réagit</li>
+      </ul>
+      <p><b>Avantages :</b></p>
+      <ul>
+        <li>Découplage extrême (producteur ignore consommateurs)</li>
+        <li>Scalabilité (ajout consommateurs facile)</li>
+        <li>Réactivité temps réel</li>
+        <li>Résilience (événements persistés)</li>
+      </ul>
+      <p><b>Désavantages :</b></p>
+      <ul>
+        <li>Complexité débogage (flux asynchrone)</li>
+        <li>Ordre événements difficile garantir</li>
+        <li>Duplication événements possible</li>
+        <li>Latence bus</li>
+        <li>Gestion erreurs complexe</li>
+      </ul>
+      <p><b>Cas d'usage :</b></p>
+      <ul>
+        <li><b>IoT :</b> Capteurs émettent données → systèmes réagissent temps réel, scalabilité massive</li>
+        <li><b>Notifications utilisateur :</b> Action utilisateur → événement → emails/push/SMS, découplage services</li>
+      </ul>
+    </div>
+
+</div><!-- End container -->
+
+</body>
+</html>
