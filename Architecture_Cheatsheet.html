@@ -314,7 +314,7 @@
       <p><b>Avantages :</b> Découplage extrême (producteur ignore consommateurs) · scalabilité (ajout consommateurs facile) · réactivité temps réel · résilience (événements persistés).</p>
       <p><b>Désavantages :</b> Complexité débogage (flux asynchrone) · ordre événements difficile garantir · duplication événements possible · latence bus · gestion erreurs complexe.</p>
       <p><b>Cas :</b> IoT (capteurs émettent données → systèmes réagissent temps réel, scalabilité massive) · Notifications utilisateur (action utilisateur → événement → emails/push/SMS, découplage services).</p>
-      <div style="text-align:center;margin:3px 0;"><img src="photo6.jpg" style="max-width:100%;height:auto;border:0.5px solid #ccc;"></div>
+      <div style="text-align:center;margin:3px 0;"></div>
     </div>
 
     <div class="sec green">
@@ -1286,7 +1286,7 @@ class Moteur { private int pressionHuile; private double temperature;<br>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ PAGE 2 - GUIDE & QA ═══ -->
+<!-- ═══════════════════════════════════════════════════════ PAGE 2 - GUIDE & QA COMPLET ═══ -->
 <div class="page">
 
   <div class="page-title full-width" style="background:#7c3aed;color:#fff;border-radius:2px;">
@@ -1571,6 +1571,281 @@ class Moteur { private int pressionHuile; private double temperature;<br>
         <tr><td>2.9</td><td>Remplacement incrémental</td><td><b>Strangling the monolith</b></td></tr>
         <tr><td>2.10</td><td>AOP, blanks</td><td><b>Aspect, Pointcut</b></td></tr>
       </table>
+    </div>
+
+    <div class="sec gray full-width" style="background:#16a34a;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">Q&A DIAPOSITIVES (Q1-Q4)</div>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q1 — Vrai ou Faux ?</div>
+      <p><b>Question :</b> Les frameworks nécessitent que les programmes soient écrits pour utiliser leurs fonctionnalités, tandis que les plugins étendent les fonctionnalités sans modifier le programme central.</p>
+      <p><b>Réponse (Vrai) :</b></p>
+      <ul>
+        <li>Les Framework fournissent des fonctionnalités que les programmes doivent être écrits pour utiliser.</li>
+        <li>Les plugins étendent les fonctionnalités d'un autre élément, sans nécessiter de modifications du programme central qu'ils augmentent.</li>
+        <li>Tandis que les cadriciels se concentrent sur l'amélioration de l'expérience du développeur, les plugins visent davantage à optimiser l'expérience de l'utilisateur.</li>
+      </ul>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q2 — Choix multiple</div>
+      <p><b>Question :</b> Quel est l'objectif principal d'un plugin par rapport à un cadriciel ?</p>
+      <ul>
+        <li>A. Améliorer l'expérience du développeur</li>
+        <li>B. Étendre les fonctionnalités d'un programme sans le modifier</li>
+        <li>C. Fournir une structure pour écrire un programme</li>
+        <li>D. Faciliter la gestion des dépendances</li>
+      </ul>
+      <p><b>Réponse : B. Étendre les fonctionnalités d'un programme sans le modifier</b></p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q3 — Modélisation conceptuelle</div>
+      <p><b>Question :</b> On souhaite organiser l'information d'un système universitaire. Le système comprend : des étudiants (ID, nom, âge, nationalité), des professeurs (ID, nom, publications), des cours (suivis par les étudiants et enseignés par les professeurs). Tâche : identifier les principaux concepts et lister les attributs pertinents, puis concevoir une représentation conceptuelle (p. ex. un diagramme E-R).</p>
+      <p><b>Réponse (modèle E-R proposé) :</b></p>
+      <table>
+        <tr><th>Student</th><th>Course</th><th>Professor</th></tr>
+        <tr><td>ID</td><td>ID</td><td>ID</td></tr>
+        <tr><td>Name</td><td>Name</td><td>Name</td></tr>
+        <tr><td>Age</td><td>studentID</td><td>publications</td></tr>
+        <tr><td>Nationality</td><td>professorID</td><td></td></tr>
+      </table>
+      <p>Relations : Student <code>1..N — 0..N</code> Course ; Course <code>0..N — 1</code> Professor.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q4 — RDB suffisante ?</div>
+      <p><b>Question :</b> Maintenant, ne parlons pas d'étudiants et de professeurs, mais d'étoiles, de planètes et de systèmes planétaires. Il y a des milliards d'objets, plus de types d'objets et des relations plus complexes. Est-il suffisant d'utiliser une base de données relationnelle (RDB) ?</p>
+      <p><b>Réponse : Non.</b> Nous avons besoin d'une infrastructure plus puissante et plus flexible : Pour gérer le volume et la complexité des données. Pour intégrer de nouveaux types de données.</p>
+    </div>
+
+  </div>
+
+  <!-- COL 2 -->
+  <div class="col">
+
+    <div class="sec gray full-width" style="background:#16a34a;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">Q&A DIAPOSITIVES (Q5-Q24)</div>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q5 — Système bancaire en ligne</div>
+      <p><b>Question :</b> Vous développez un système bancaire en ligne (transferts entre comptes). Est-ce suffisant pour un système bancaire en ligne ? Qu'en est-il de la sécurité ? (Est-ce que n'importe qui peut transférer de l'argent entre deux comptes ?) Qu'en est-il de l'intégrité ? (Peut-on toujours transférer de l'argent d'un compte ?) Qu'en est-il de la transparence et de la traçabilité ? (Les transactions doivent être enregistrées et récupérables pour fins de futures vérifications.)</p>
+      <p><b>Réponse (Solution #2) :</b> Sécurité +, Intégrité +, Traçabilité +</p>
+      <p>Mais avons-nous terminé ? Si ces enjeux doivent être considérés dans chaque fonction (≈10 méthodes…), nous aurons beaucoup de répétitions ; toute modification de la politique impactera toutes les parties affectées (risque d'oubli ou d'incohérence). → Motivation pour AOP.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q6 — Mythes et réalités sur AOP</div>
+      <p><b>Q :</b> Le flot de contrôle du programme est difficile à suivre. <b>R :</b> Effectivement. Mais c'est ce qu'on souhaite ! On veut travailler à un niveau d'abstraction plus élevé. Et le polymorphisme ?</p>
+      <p><b>Q :</b> AOP ne règle pas de nouveaux problèmes. <b>R :</b> En effet. On ne cherche pas à résoudre de nouveaux problèmes, mais à résoudre les problèmes actuels de façon plus efficace.</p>
+      <p><b>Q :</b> AOP encourage les mauvais designs. <b>R :</b> Faux. AOP nous permet de corriger des problèmes difficilement corrigibles en OO, mais la bonne conception OO des classes issues du domaine du problème reste nécessaire.</p>
+      <p><b>Q :</b> AOP peut être utile, mais la définition correcte d'interfaces est tout aussi efficace. <b>R :</b> Faux. Pensez à l'exemple de « logfile » : l'utilisation d'une librairie pour enregistrer les traces d'exécution nécessite quand même une invocation dans chaque fonction dont on veut garder la trace.</p>
+      <p><b>Q :</b> AOP ne fait que « patcher » la conception des classes du domaine. <b>R :</b> Faux. AOP permet d'augmenter la modularité, la compréhensibilité et la traçabilité du code.</p>
+      <p><b>Q :</b> AOP brise l'encapsulation. <b>R :</b> Vrai, mais d'une façon systématique et contrôlée. On peut briser l'encapsulation d'une classe à partir d'un aspect. AOP est donc très puissant, mais ce pouvoir doit être utilisé correctement.</p>
+      <p><b>Q :</b> AOP va remplacer l'OO. <b>R :</b> Faux. Les concepts issus du domaine du problème continuent d'être modélisés avec des objets. AOP est utile pour modéliser les fonctions transversales qui, autrement, nécessiteraient des modifications à plusieurs classes du domaine.</p>
+      <p><b>Q :</b> AOP n'est pas mature. <b>R :</b> AspectJ en est à la version 1.9.23 (intégré à Eclipse, NetBeans, JBuilder, Emacs JDDE). AspectC++ 2.2 est disponible (intégré à Eclipse). AOP est disponible dans : Java, C#, C/C++, PHP, Haskell, JavaScript, Matlab, Perl, Prolog, Python, Ruby, XML.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q7 — Architecture vs. Conception</div>
+      <p><b>Question :</b> En quoi l'architecture logicielle diffère-t-elle de la conception logicielle en termes de types d'exigences qu'elles traitent ?</p>
+      <p><b>Réponse :</b> L'architecture : gérer à la fois les exigences fonctionnelles <b>et</b> non fonctionnelles. La conception : traiter principalement les exigences fonctionnelles.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q8 — Définitions SOLID</div>
+      <p><b>Questions :</b> Que signifie SOLID ? Définir chaque principe.</p>
+      <table>
+        <tr><th>Principe</th><th>Définition</th></tr>
+        <tr><td>SRP</td><td>Une classe doit avoir une seule et unique responsabilité.</td></tr>
+        <tr><td>OCP</td><td>Ouverts à l'extension, fermés à la modification.</td></tr>
+        <tr><td>LSP</td><td>Les types dérivés doivent pouvoir être substitués à leurs types de base.</td></tr>
+        <tr><td>ISP</td><td>Les clients ne doivent pas être forcés d'implémenter des méthodes inutiles.</td></tr>
+        <tr><td>DIP</td><td>Dépendez des abstractions, pas des implémentations concrètes.</td></tr>
+      </table>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q9 — QCM SOLID</div>
+      <p><b>Question :</b> Selon ce principe de conception SOLID, il est préférable de maintenir plusieurs interfaces simples plutôt qu'une seule interface grande et complexe.</p>
+      <p><b>Réponse : a) ISP — Principe de Ségrégation des Interfaces.</b></p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q10 — Application de partage de fichiers</div>
+      <p><b>Question :</b> Vous êtes l'architecte principal chargé de concevoir une nouvelle application de partage de fichiers. Cette application doit permettre le partage direct de fichiers entre utilisateurs sans serveur central. La conception doit être scalable, capable de gérer un grand nombre d'utilisateurs simultanément, et minimiser la dépendance aux ressources centralisées. Quel style architectural choisiriez-vous ? Justifiez votre réponse.</p>
+      <p><b>Réponse : Architecture Pair-à-pair (P2P)</b></p>
+      <ul>
+        <li>Permet le partage direct de fichiers entre utilisateurs, sans serveur central.</li>
+        <li>Naturellement scalable : chaque nouvel utilisateur apporte des ressources supplémentaires au réseau.</li>
+        <li>Réduit les coûts liés à l'infrastructure centrale.</li>
+        <li>Évite les goulets d'étranglement associés aux serveurs centralisés.</li>
+      </ul>
+      <div class="tip">⚠ <b>Note :</b> pour SOA / microservices, <b>toujours mentionner le type de communication</b> utilisé (SOAP, REST, RPC, GraphQL). « Modulaire » seul <b>n'est pas accepté</b>.</div>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q11 — Plugin vs Framework</div>
+      <p><b>Question :</b> Expliquez en quoi un plugin et un framework diffèrent en termes de fonctionnalité au sein d'un système logiciel et de leur influence sur le flux de contrôle d'une application.</p>
+      <p><b>Réponse :</b></p>
+      <p><b>Plugin :</b> Ajoute ou étend des fonctionnalités spécifiques dans une application sans modifier le code central. Introduit de nouvelles capacités ou intégrations, mais repose sur l'infrastructure de l'application hôte. Le flux de contrôle est déclenché par événements ; l'application hôte décide quand les fonctions du plugin sont exécutées.</p>
+      <p><b>Framework :</b> Fournit un plan structuré pour le développement d'applications, avec des fonctionnalités prédéfinies que les développeurs peuvent étendre. Suit le principe de l'<b>inversion de contrôle (IoC)</b> : le framework gère le cycle de vie et le flux de contrôle ; les développeurs implémentent les détails spécifiques.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q12 — QCM antipatron</div>
+      <p><b>Question :</b> Quel anti-patron (antipattern) conduit à une interface excessivement complexe, prenant en charge de nombreux cas d'usage ?</p>
+      <p>a) Cover your assets</p>
+      <p>b) Swiss Army Knife</p>
+      <p>c) Jumble</p>
+      <p><b>Réponse : b) Swiss Army Knife</b> (Couteau suisse) — interface complexe qui expose de nombreuses fonctionnalités.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q13 — QCM MapReduce</div>
+      <p><b>Question :</b> Identifiez l'affirmation FAUSSE :</p>
+      <p>a) Un job MapReduce divise généralement le jeu de données d'entrée en blocs indépendants, qui sont traités par les tâches map de manière entièrement parallèle.</p>
+      <p>b) Le framework MapReduce fonctionne exclusivement sur des paires &lt;clé, valeur&gt;.</p>
+      <p>c) Le jeu de données d'entrée de MapReduce est dynamique.</p>
+      <p><b>Réponse : c) est fausse</b> — le jeu de données d'entrée est <b>statique</b> (pas dynamique).</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q14 — QCM Streaming événementiel</div>
+      <p><b>Question :</b> Ce framework de streaming traite les flux de données de manière orientée événements : Kafka, Spark, RabbitMQ</p>
+      <p><b>Réponse : Kafka.</b></p>
+      <p>(Rappel : « La définition des flux et l'entrée des données est basée sur le temps en Spark et sur les évènements en Kafka. »)</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q15 — Choix d'une BD NoSQL</div>
+      <p><b>Question :</b> Vous développez une plateforme de blogs où chaque article peut avoir des attributs variables, et les utilisateurs doivent pouvoir rechercher des articles en fonction du contenu textuel et des tags. Quel type de base de données NoSQL est le plus approprié ? Justifiez votre réponse.</p>
+      <p><b>Réponse : Base de données orientée documents</b> (ex. : MongoDB)</p>
+      <ul>
+        <li>Adaptée aux données semi-structurées, comme les articles de blog avec des attributs variables.</li>
+        <li>Permet une recherche textuelle efficace grâce à des fonctionnalités d'indexation avancées.</li>
+        <li>Convient parfaitement aux applications riches en contenu.</li>
+        <li>Offre une flexibilité du schéma, idéale pour des données hétérogènes.</li>
+      </ul>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q16 — ACID vs BASE</div>
+      <p><b>Question :</b> Quel modèle de données est le plus adapté pour : « Un système doit refléter un changement immédiatement » ?</p>
+      <p><b>Réponse : b) ACID</b> (cohérence forte / immédiate).</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q17 — Théorème CAP</div>
+      <p><b>Question :</b> Selon le théorème CAP, quelle garantie NE PEUT PAS être sacrifiée dans un système distribué ?</p>
+      <p><b>Réponse : b) Tolérance aux partitions</b></p>
+      <p>(Dans un système distribué, la tolérance au partitionnement est garantie par défaut ; on choisit ensuite entre cohérence et disponibilité.)</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q18 — PoW vs PoS</div>
+      <p><b>Question :</b> Laquelle des affirmations suivantes distingue correctement le Proof of Work (PoW) du Proof of Stake (PoS) ?</p>
+      <p><b>Réponse : a)</b> — PoW = puissance de calcul ; PoS = montant de cryptomonnaie détenue.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q19 — Patron Proactor</div>
+      <p><b>Question :</b> Application P2P, scalable, latence minimale. Sélectionnez un modèle de gestion d'événements : Reactor, Proactor, ACT, Acceptor-Connector.</p>
+      <p><b>Réponse : Proactor.</b> Permet la gestion <b>asynchrone complète</b> des opérations d'I/O. Très performant pour les systèmes à forte concurrence avec de nombreux transferts simultanés.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q20 — SOA Affirmation correcte</div>
+      <p><b>Question :</b> Indiquez l'affirmation CORRECTE :</p>
+      <p>a) GraphQL permet l'exécution distante d'une fonction dans un contexte différent.</p>
+      <p>b) SOAP est un protocole de communication web hautement standardisé utilisant un format XML.</p>
+      <p>c) En REST, les ressources peuvent partager des identifiants uniques (URI).</p>
+      <p><b>Réponse : b) SOAP est un protocole de communication web hautement standardisé utilisant un format XML.</b></p>
+      <p>((a) décrit RPC, pas GraphQL ; (c) en REST, chaque ressource a un URI unique.)</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q21 — Télémédecine SOA</div>
+      <p><b>Question :</b> Plateforme télémédecine, temps réel, appels directs, synchrone, sécurisé, latence minimale. Mécanisme SOA : SOAP, REST, RPC ou GraphQL ?</p>
+      <p><b>Réponse : RPC (gRPC).</b> Interactions instantanées, appels directs, fiabilité, sécurité (TLS/mTLS PHI/HIPAA), latence minimale (Protobuf + HTTP/2), multi-langages.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q22 — Strangling the monolith</div>
+      <p><b>Question :</b> Processus pour remplacer progressivement les fonctionnalités d'une application monolithique par des microservices ?</p>
+      <p><b>Réponse : a) Strangling the monolith</b> (Étouffer le monolithe).</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q23 — Concepts AOP</div>
+      <p><b>Questions :</b> Qu'est-ce qu'une préoccupation transversale (cross-cutting concern) ? Pourquoi AOP est-elle utile ? Qu'est-ce qu'un aspect, un advice, un pointcut ?</p>
+      <p>(Définitions à maîtriser — voir cours AOP.)</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Q24 — Aspect / Pointcut</div>
+      <p><b>Question :</b> Complétez : Un _______ permet l'injection de cross-cutting concerns. ______ est une expression de motif qui identifie où le Advice doit être invoqué.</p>
+      <p><b>Réponse : b) Aspect, Pointcut.</b></p>
+    </div>
+
+    <div class="sec gray full-width" style="background:#16a34a;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">EXAMEN FINAL 2023 — SECTIONS 2-6</div>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Section 2 — Choix multiples (20 pts)</div>
+      <p><b>2.1 — Principe SOLID :</b> According to this (SOLID) design principle, it is better to maintain several simple interfaces than one large and complex interface. ☑ <b>Interface Segregation Principle (ISP)</b></p>
+      <p><b>2.2 — Antipatron architectural :</b> The architectural antipattern results in an excessively complex interface that provides and supports various use cases. ☑ <b>Swiss army knife</b></p>
+      <p><b>2.3 — MapReduce :</b> Point out the WRONG statement. ☑ <b>« The input data set of MapReduce is dynamic »</b> est FAUSSE. Le jeu de données d'entrée est <b>statique</b>.</p>
+      <p><b>2.4 — Streaming :</b> This streaming framework processes streams of data in an event-based manner. ☑ <b>Kafka</b></p>
+      <p><b>2.5 — ACID vs BASE :</b> Which data model is the best for the use case: "A system needs to reflect a change immediately". ☑ <b>ACID</b></p>
+      <p><b>2.6 — Théorème CAP :</b> Which guarantee CANNOT be sacrificed in a distributed system? ☑ <b>Partition tolerance</b></p>
+      <p><b>2.7 — Trilemme Blockchain :</b> Blockchain cannot guarantee all three of which properties at the same time? ☑ <b>Security, Scalability, Decentralisation</b></p>
+      <p><b>2.8 — Affirmation CORRECTE :</b> Point out the CORRECT statement. ☑ <b>SOAP is an XML-formatted, highly standardized web communication protocol.</b></p>
+      <p><b>2.9 — Migration monolithe :</b> The goal of this process is to incrementally replace the core functionalities of a monolithic application with other microservices. ☑ <b>Strangling the monolith</b></p>
+      <p><b>2.10 — AOP :</b> Fill in the blanks. An _______ is a construct that allows the injection of cross-cutting concerns. While ______ is a pattern expression that matches the places where the Advice should be invoked. ☑ <b>Aspect, Pointcut</b></p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Section 3 — Plugin vs. Framework (6 pts)</div>
+      <p><b>Question :</b> Explain how a plugin and a framework differ in terms of their functionality within a software system and their influence on the control flow of an application.</p>
+      <p><b>Correction :</b></p>
+      <p><b>Plugin :</b> Ajoute ou étend des fonctionnalités spécifiques sans modifier le code central. <b>Flux de contrôle</b> : déclenché par événements ; <b>c'est l'application hôte qui décide</b>. Vise l'expérience <b>utilisateur</b>.</p>
+      <p><b>Framework :</b> Squelette avec fonctionnalités de base à étendre. <b>Flux de contrôle</b> : suit le principe de l'<b>Inversion de Contrôle (IoC)</b> — le <b>framework</b> gère le cycle de vie et appelle le code du développeur (« don't call us, we'll call you »). Vise l'expérience <b>développeur</b>.</p>
+      <p><b>Différence clé :</b> Plugin = programme contrôle ; Framework = framework contrôle.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Section 4 — Application P2P (12 pts)</div>
+      <p><b>4.1 — Style architectural (8 pts) :</b> What architectural style would you choose for this system?</p>
+      <p><b>Correction :</b> Style <b>Pair-à-pair (P2P)</b>.</p>
+      <p><b>Justification :</b> Partage direct sans serveur central. Scalabilité naturelle (+ pairs = + ressources). Réduction coûts infrastructure. Élimination goulets d'étranglement (pas SPOF). Tolérance pannes. <b>Ex:</b> BitTorrent.</p>
+      <p><b>4.2 — Patron événements (4 pts) :</b> Select event handling pattern: Reactor, Proactor, ACT, or Acceptor-Connector.</p>
+      <p><b>Correction :</b> <b>Proactor</b>. Lance opérations async et traite résultats terminés. Idéal forte concurrence P2P avec nombreux transferts simultanés. Gestion async complète I/O maximise débit. Vs Reactor (sync), évite blocage thread.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Section 5 — Plateforme de blogs (7 pts)</div>
+      <p><b>Question :</b> Blogging platform, varying attributes, search by text/tags. Which NoSQL database type?</p>
+      <p><b>Correction :</b> <b>Base de données orientée documents</b> (MongoDB)</p>
+      <p><b>Justification :</b> Attributs variables → schéma flexible (JSON/BSON). Recherche textuelle → indexation avancée (full-text + tableaux). Riche contenu → récup document complet 1 requête. Évolutivité schéma → ajout champs sans migration. <b>Pas:</b> Key-value (trop simple), Graph (surdimensionné), Wide-column (pas optimal recherche textuelle). <b>Ex:</b> eBay, Forbes.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Section 6 — Télémédecine (10 pts)</div>
+      <p><b>Question :</b> Select the most suitable SOA communication mechanism (SOAP, REST, RPC, or GraphQL) for the telemedicine scenario (real-time, quick/reliable/direct method invocations, synchronous, secure, low-latency). Justify your choice.</p>
+      <p><b>Correction :</b> <b>RPC</b> (Remote Procedure Call).</p>
+      <p><b>Justification détaillée :</b> <b>Communication en temps réel</b> : RPC permet des <b>interactions instantanées</b> via des appels de procédure directs. <b>Appels de méthode rapides et directs</b> : RPC abstrait l'appel réseau pour qu'il ressemble à un appel de fonction local, simplifiant les interactions entre les modules de santé. <b>Interactions synchrones fluides</b> : RPC est intrinsèquement <b>synchrone et bloquant</b> par défaut (requête-réponse), assurant la cohérence des échanges entre modules. <b>Fiabilité</b> : RPC garantit la tolérance aux pannes, la livraison sécurisée des messages et les accusés de réception. <b>Sécurité</b> : RPC supporte le chiffrement et l'authentification (TLS, mTLS pour gRPC), critiques pour les données de santé (PHI/HIPAA). <b>Latence minimale</b> : RPC a une <b>conception légère</b> (notamment gRPC avec Protobuf et HTTP/2), bien plus performant que SOAP/XML pour les communications inter-modules. <b>Facilité d'intégration</b> : gRPC est compatible avec un grand nombre de langages et plateformes.</p>
+      <p><b>Pourquoi pas les autres ?</b> <b>SOAP</b> : très standardisé et sécurisé, mais le format XML est verbeux → latence et débit moins bons que RPC. <b>REST</b> : architecture orientée ressources via HTTP, idéal pour les APIs publiques basées sur des ressources, mais moins adapté à des <b>invocations de méthodes directes</b> entre modules internes en temps réel ; surcoût HTTP/JSON par rapport à gRPC. <b>GraphQL</b> : excellent pour réduire l'over-fetching dans des applications mobiles ou des UIs complexes, mais ses requêtes sont conçues côté client et son évaluation côté serveur introduit du surcoût ; il n'est pas optimal pour des <b>appels de méthode directs synchrones</b> entre microservices internes à faible latence.</p>
+      <p><b>Conclusion :</b> RPC (idéalement <b>gRPC</b>) est le mécanisme SOA le plus adapté à la télémédecine décrite : appels de méthode rapides, synchrones, sécurisés, à très faible latence, avec un excellent support multi-langage pour les différents modules.</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">Rappels Importants</div>
+      <p><b>Réponses NON acceptées :</b> « Modulaire » seul → préciser <b>Pipe-Filter / Layered / MVC / Blackboard</b>. « Distribué » seul → préciser <b>Client-Server / Multitier / Primary-Secondary / Peer-to-peer / Broker / SOA / EDA</b>.</p>
+      <p><b>Hors-programme :</b> Semaine 3 (Qualité conception, attributs, métriques). Semaine 4 (code antipatterns diapos 50+).</p>
     </div>
 
   </div>
