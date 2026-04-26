@@ -346,11 +346,47 @@
     </div>
 
     <div class="sec green">
-      <div class="sec-title">Framework vs Plugin vs Écosystème</div>
-      <p><b>Framework</b> – Architecture à moitié implémentée, générique. Principe IoC : le framework contrôle le cycle de vie ; le dev implémente les détails. <span class="badge bg">QCM ★</span></p>
-      <p><b>Plugin</b> – Système de base atomique + indépendant. Plugin ajoute des fonctionnalités sans modifier le core. Flux déclenché par événements ; l'hôte décide quand s'exécute le plugin.</p>
-      <p><b>Écosystème</b> – Réseau d'outils/plateformes/services. Contributions gérées par la communauté.</p>
-      <div class="tip">⚠ Inversion of Control (IoC) = clé pour distinguer framework (il t'appelle) vs bibliothèque (tu l'appelles).</div>
+      <div class="sec-title">1. CADRICIELS (FRAMEWORKS)</div>
+      <p><b>Définition :</b> Architecture semi-implémentée, générique et agnostique. Squelette réutilisable.</p>
+      <p><b>Analogie :</b> Centre commercial (Structure fixe + espaces vides).</p>
+      <p><b>Composants :</b> <b>Frozen Spots</b> (Modules concrets, fondations, immuables) · <b>Hot Spots</b> (Modules abstraits, emplacements à étendre par le dév).</p>
+      <p><b>Inversion de Contrôle (IoC) / Principe Hollywood :</b> "Ne nous appelez pas, on vous appellera". Le cadre dicte le flux. <span class="badge bg">QCM ★</span></p>
+      <p><b>Propriétés & Principes :</b> DIP/OCP (Ouvert extension, fermé modification) · Standardisation (Structure et flux uniformes).</p>
+      <p><b>Études de cas :</b> <b>AngularJS</b> (Web JS, Architecture MV*, data-binding automatique, très testable mais complexe) · <b>Django</b> (Python, Architecture MVT Model-View-Template, focus sécurité et développement rapide DRY).</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">2. PLUGICIELS (PLUGINS)</div>
+      <p><b>Définition :</b> Composant qui ajoute une fonction à un système hôte sans le modifier (OCP).</p>
+      <p><b>Architecture :</b> Microkernel (Noyau minimal). Le système de base est atomique (fonctionne seul).</p>
+      <p><b>Principes clés :</b> <b>SRP</b> (Single Responsibility, principe le plus pertinent, mission unique) · Inversion de Dépendance (système définit interface, plugin l'implémente).</p>
+      <p><b>Désavantages :</b> Maintenabilité réduite (fragilité aux mises à jour système) · conflits possibles.</p>
+      <p><b>Étude de cas :</b> <b>Eclipse</b> (IDE, noyau minimal où tout est plugin, priorise rétrocompatibilité supporter vieilles versions, complexifie maintenance du cœur).</p>
+    </div>
+
+    <div class="sec green">
+      <div class="sec-title">3. ÉCOSYSTÈMES LOGICIELS & CHANGEMENTS DISRUPTIFS</div>
+      <p><b>Définition :</b> Collection de modules partageant un socle commun (Langage, Plateforme).</p>
+      <p><b>Propriétés :</b> Interdépendance · Maintenabilité (qualité variable car n'importe qui contribue) · Effet de réseau.</p>
+      <p><b>Étude sur la gestion du changement (Breaking Changes) :</b></p>
+      <p><b>Le dilemme du coût :</b> Un petit changement chez le mainteneur peut causer charge de travail massive pour des milliers d'utilisateurs (développeurs tiers).</p>
+      <p><b>Stratégies de négociation :</b> 1. <b>Mainteneur assume le coût</b> (Limite changements pour protéger utilisateurs, Eclipse) · 2. <b>Utilisateur assume le coût</b> (Doit s'adapter rapidement aux ruptures, Node.js) · 3. <b>Coût partagé</b> (Collaboration via volontaires et dépôts centralisés, R/CRAN).</p>
+      <p><b>Valeurs des communautés spécifiques :</b> <b>Eclipse</b> (Priorité absolue stabilité, accès rapide outils utilisateur final) · <b>R/CRAN</b> (Priorité partage et validation, dépôt distribué paquets statistiques, responsabilité partagée) · <b>Node.js</b> (Priorité vitesse développement, écosystème géré par npm, très dynamique, changements fréquents).</p>
+      <p><b>Autre cas :</b> <b>Android</b> (Hybride OS + Cadriciel + Écosystème, Architecture MVVM, Modulaire et sécuritaire).</p>
+    </div>
+
+    <div class="sec gray">
+      <div class="sec-title">COMPARAISON GLOBALE (EXAMEN)</div>
+      <table>
+        <tr><th>Caractéristique</th><th>Cadriciel (Framework)</th><th>Plugiciel (Plugin)</th><th>Écosystème</th></tr>
+        <tr><td><b>Rôle</b></td><td>Squelette / Structure</td><td>Extension de fonction</td><td>Environnement global</td></tr>
+        <tr><td><b>Principe Roi</b></td><td><b>IoC</b> (Inversion de Contrôle)</td><td><b>SRP</b> (Responsabilité Unique)</td><td><b>Effet de réseau</b></td></tr>
+        <tr><td><b>Indépendance</b></td><td>L'app ne tourne pas sans lui</td><td>Le système hôte tourne sans lui</td><td>Modules interdépendants</td></tr>
+        <tr><td><b>Gestion Changement</b></td><td>Rigide (Frozen Spots)</td><td>Fragile (Microkernel)</td><td>Stratégies variables (Étude)</td></tr>
+        <tr><td><b>Focus</b></td><td>Productivité du Développeur</td><td>Expérience Utilisateur</td><td>Communauté & Marché</td></tr>
+        <tr><td><b>Exemple</b></td><td>Django, Angular</td><td>AdBlock, Plugin Eclipse</td><td>Android, npm, CRAN</td></tr>
+      </table>
+      <div class="tip">⚠ IoC = clé pour distinguer framework (il t'appelle) vs bibliothèque (tu l'appelles). SRP = principe le plus pertinent pour plugins.</div>
     </div>
 
     <div class="sec orange">
