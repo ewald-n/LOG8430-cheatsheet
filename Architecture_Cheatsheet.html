@@ -1286,5 +1286,295 @@ class Moteur { private int pressionHuile; private double temperature;<br>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════ PAGE 2 - GUIDE & QA ═══ -->
+<div class="page">
+
+  <div class="page-title full-width" style="background:#7c3aed;color:#fff;border-radius:2px;">
+    PAGE 2 · MÉTHODOLOGIES, PIÈGES & QUESTIONS-RÉPONSES
+  </div>
+
+  <!-- COL 1 -->
+  <div class="col">
+
+    <div class="sec gray full-width" style="background:#7c3aed;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">GUIDE MÉTHODOLOGIQUE - DÉCISIONS RAPIDES</div>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">1. SOLID – Principes de conception</div>
+      <p><b>Méthodologie :</b> Pour chaque classe/interface, pose-toi la question <b>« qui change et pourquoi ? »</b>. Si plus d'une raison de changer → SRP. Si tu modifies du code existant pour ajouter une fonctionnalité → OCP cassé (utilise héritage/interfaces). Si une sous-classe override pour « ne rien faire » → LSP violé. Si une classe implémente une méthode vide d'une interface → ISP violé. Si un module métier <code>import</code>e une classe concrète de bas niveau → DIP violé (injecte une abstraction).</p>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li><b>ISP ≠ SRP :</b> ISP cible les <em>interfaces</em> (point de vue client), SRP cible les <em>classes</em> (cohésion interne).</li>
+        <li>LSP ne se résume pas à « hériter sans erreur compilateur » : il faut que le <b>comportement</b> reste substituable (Autruche/Oiseau, Carré/Rectangle).</li>
+        <li>DIP ≠ Dependency Injection. DIP = principe (dépendre d'abstractions), DI = technique d'implémentation.</li>
+        <li>OCP ne veut pas dire « jamais toucher au code », mais « ne pas modifier les modules <b>stables et validés</b> ».</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li>« Plusieurs interfaces simples > une grosse interface » → <b>ISP</b></li>
+        <li>« Une seule raison de changer » → <b>SRP</b></li>
+        <li>« Dépendre des abstractions » → <b>DIP</b></li>
+        <li>« Sous-type substituable » → <b>LSP</b></li>
+        <li>« Étendre sans modifier » → <b>OCP</b></li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">2. Styles Architecturaux</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. Identifier la <b>contrainte dominante</b> : centralisation ? scalabilité ? découplage ? temps réel ?</li>
+        <li>2. Classer en <b>monolithique / modulaire / distribué</b>.</li>
+        <li>3. Si distribué : choisir entre centralisé (Client-Server, Primary-Secondary, Broker), décentralisé (P2P), réactif (EDA), ou orienté service (SOA).</li>
+        <li>4. Justifier en citant <b>2 avantages concrets</b> + <b>1 désavantage assumé</b>.</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li>L'examen 2023 interdit explicitement « modulaire / distribué / multitiered » comme réponse → il faut nommer un <b>style précis</b> (P2P, EDA, etc.).</li>
+        <li>Confondre <b>Broker</b> et <b>SOA</b> : Broker = intermédiaire de routage, SOA = exposition de services.</li>
+        <li>Pipe-Filter ≠ MVC : Pipe-Filter est unidirectionnel et non interactif.</li>
+        <li>Blackboard a un <b>contrôleur</b> (souvent oublié), ce n'est pas juste un tableau partagé.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li><b>Partage de fichiers sans serveur central, scalable</b> → <b>P2P</b> (ex : BitTorrent)</li>
+        <li><b>Capteurs IoT temps réel, découplage producteur/consommateur</b> → <b>Event-Driven (EDA)</b></li>
+        <li><b>Calcul parallèle big data</b> → <b>Primary-Secondary</b> (MapReduce)</li>
+        <li><b>Intégration de systèmes hétérogènes via registre de services</b> → <b>Broker</b> ou <b>SOA</b></li>
+        <li><b>Système legacy critique, sécurité maximale, équipe restreinte</b> → <b>Mainframe</b></li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">3. Cadriciels, Plugiciels & Écosystèmes</div>
+      <p><b>Méthodologie :</b> Pour distinguer framework vs plugin vs librairie, pose-toi 2 questions :</p>
+      <ul>
+        <li>1. <b>Qui appelle qui ?</b> Si le code te rappelle → framework (IoC). Si tu l'appelles → librairie. Si le système hôte fonctionne sans → plugin.</li>
+        <li>2. <b>Le système peut-il tourner sans ce composant ?</b> Oui → plugin. Non → framework.</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li>Une librairie n'est <b>pas</b> un framework (pas d'IoC).</li>
+        <li>Plugin = SRP (mission unique), pas IoC.</li>
+        <li>Frozen Spots = parties immuables, Hot Spots = points d'extension (pas l'inverse).</li>
+        <li>AngularJS et Django sont des <b>frameworks</b>, pas des écosystèmes.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li>« Le système m'appelle » → <b>Framework</b></li>
+        <li>« Ajout sans modification du noyau » → <b>Plugin</b> (architecture microkernel)</li>
+        <li>« Mainteneur change l'API → milliers d'apps cassent » → problème de <b>breaking changes</b> dans un écosystème</li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">4. Big Data & NoSQL</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. Vérifier les <b>3V</b> : si au moins un dépasse les capacités SGBDR → Big Data.</li>
+        <li>2. Identifier la <b>forme</b> des données : clé simple ? document hétérogène ? colonnes massives ? relations complexes ?</li>
+        <li>3. Appliquer <b>CAP</b> : choisir 2 des 3 (souvent AP en NoSQL).</li>
+        <li>4. Si cohérence forte requise → <b>ACID</b> (SQL). Si haute dispo + scalabilité → <b>BASE</b> (NoSQL).</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li><b>CAP : P ne se sacrifie pas</b> dans un système distribué — si tu sacrifies P, ce n'est plus distribué.</li>
+        <li>BASE ≠ ACID : BASE accepte la <b>consistance éventuelle</b>.</li>
+        <li>MapReduce : l'input est <b>statique</b> (la phrase « input dynamic » est fausse).</li>
+        <li>Document store ≠ relationnel : pas de JOIN côté serveur.</li>
+        <li>« Reflète un changement immédiatement » → <b>ACID</b> (cohérence forte), pas BASE.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li><b>Blog avec attributs variables, recherche texte/tags</b> → <b>Document Store (MongoDB)</b></li>
+        <li><b>Sessions, paniers, cache</b> → <b>Clé-Valeur (Redis)</b></li>
+        <li><b>Logs massifs, séries temporelles</b> → <b>Wide-Column (Cassandra)</b></li>
+        <li><b>Réseau social, recommandations</b> → <b>Graphe (Neo4j)</b></li>
+        <li><b>Streaming d'événements</b> → <b>Kafka</b></li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">5. SOA & Mécanismes de Communication</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. Latence ? Si <b>minimale + appels directs</b> → RPC/gRPC.</li>
+        <li>2. Sécurité entreprise + transactions ? → <b>SOAP</b> (WS-Security).</li>
+        <li>3. Web public, scalable, cache ? → <b>REST</b>.</li>
+        <li>4. Frontend mobile flexible, sur-fetch à éviter ? → <b>GraphQL</b>.</li>
+        <li>5. Toujours préciser : <b>stub</b>, <b>interface</b>, <b>SLA</b>, <b>découvrabilité (UDDI)</b>.</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li><b>GraphQL ≠ RPC</b> : GraphQL est une <em>query language</em>, RPC = exécution distante.</li>
+        <li>« SOAP = XML standardisé » → <b>vrai</b> (réponse correcte).</li>
+        <li>« REST URI uniques » → vrai, pas partagés.</li>
+        <li>REST n'a <b>pas de contrat formel</b> standard (vs WSDL/SOAP).</li>
+        <li>gRPC = HTTP/2 + Protobuf, pas REST.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li><b>Télémédecine, appels directs synchrones, faible latence</b> → <b>RPC</b> (ou gRPC)</li>
+        <li>Web public + cache + scaling → <b>REST</b></li>
+        <li>Banque, contrats stricts, sécurité → <b>SOAP</b></li>
+        <li>Mobile, sur-fetch problématique → <b>GraphQL</b></li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">6. EDA & Patrons de Concurrence</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. Choisir le patron de <b>synchronisation</b> selon contexte : Singleton → Double-Checked Locking ; appels récursifs → Thread-Safe Interface.</li>
+        <li>2. Pour le <b>modèle de concurrence</b> : Active Object (asynchrone), Monitor (synchrone), Half-Sync/Half-Async (mixte), Leader/Followers (thread pool).</li>
+        <li>3. Pour le <b>handling d'événements</b> : Reactor (sync, app fait l'I/O), Proactor (async, OS fait l'I/O), ACT (token de contexte), Acceptor-Connector (séparation connexion/traitement).</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li><b>Reactor vs Proactor</b> : Reactor = l'app fait l'I/O après notification ; Proactor = l'OS fait l'I/O et notifie à la fin.</li>
+        <li>ACT = « cookie » pour retrouver le contexte dans une réponse asynchrone.</li>
+        <li>Acceptor-Connector = essentiel pour <b>P2P orienté connexion</b>.</li>
+        <li>Leader/Followers > Half-Sync/Half-Async en perf (pas de file d'attente entre threads).</li>
+        <li>Scoped Locking seul + récursion = <b>deadlock</b> garanti.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li><b>App P2P de partage de fichiers</b> → <b>Acceptor-Connector</b> : sépare connexion du traitement</li>
+        <li>Beaucoup de connexions simultanées asynchrones → <b>Proactor</b></li>
+        <li>Quelques connexions, traitement immédiat → <b>Reactor</b></li>
+        <li>Réponse différée à corréler → <b>ACT</b></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- COL 2 -->
+  <div class="col">
+
+    <div class="sec purple">
+      <div class="sec-title">7. Anti-patrons</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. <b>Niveau</b> : système → architectural ; classes → conception ; méthode → code smell.</li>
+        <li>2. <b>Identifier le principe brisé</b> (SOLID) pour orienter le refactoring.</li>
+        <li>3. <b>Refactoring patterns</b> : Extract Class/Method, Move Method, Introduce Parameter Object, Replace Conditional with Polymorphism, Hide Delegate.</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li><b>Swiss Army Knife</b> = interface trop polyvalente (réponse correcte).</li>
+        <li><b>Jumble</b> = fusion horizontal/vertical (couches MVC + services), <b>pas</b> Swiss Army.</li>
+        <li><b>Cover Your Assets</b> = doc excessive, pas un anti-patron technique.</li>
+        <li><b>Stovepipe</b> = migration local→distribué ratée.</li>
+        <li><b>Divergent Change</b> (1 classe, N changements) ≠ <b>Shotgun Surgery</b> (1 changement, N classes).</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li>« Interface trop chargée, multi-usages » → <b>Swiss Army Knife</b></li>
+        <li>« Vue qui contient du SQL direct » → <b>Jumble</b> (DIP cassé)</li>
+        <li>« 12 fichiers à toucher pour 1 changement » → <b>Shotgun Surgery</b></li>
+        <li>« Réinventer ce qui existe » → <b>Reinvent the Wheel</b> (NIH)</li>
+        <li>« Système local migré sans abstraction » → <b>Stovepipe</b></li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">8. Blockchain</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. Vérifier les 4 propriétés : immuabilité, transparence, décentralisation, consensus.</li>
+        <li>2. Choisir le <b>consensus</b> : PoW (sécurité, énergie) vs PoS (efficacité) vs PBFT (privé).</li>
+        <li>3. Calcul du seuil byzantin : <code>n ≥ 3f + 1</code> pour tolérer <code>f</code> traîtres.</li>
+        <li>4. Identifier la chaîne : publique (Bitcoin/Ethereum) vs privée (Hyperledger).</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li><b>Trilemme Blockchain</b> = Sécurité, Scalabilité, Décentralisation (réponse correcte).</li>
+        <li>≠ <b>CAP</b> (C, A, P) — qui est pour les BD distribuées.</li>
+        <li>≠ <b>ACID</b> (transactions BD).</li>
+        <li>Attaque 51% : peut <b>réordonner / double-dépenser</b>, ne peut <b>pas</b> voler des coins existants.</li>
+        <li>PoS vulnérabilité = <b>Nothing-at-stake</b>, pas 51%.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li>B2B contrôlé, haut TPS → <b>Hyperledger Fabric</b></li>
+        <li>Smart contracts généraux → <b>Ethereum</b></li>
+        <li>Monnaie pure → <b>Bitcoin</b></li>
+        <li>Tolérer 1 traître → <b>minimum 4 nœuds</b></li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">9. Microservices</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. Identifier les <b>Bounded Contexts</b> (DDD) → 1 contexte = 1 service.</li>
+        <li>2. Appliquer <b>Two-Pizza Team</b> : équipe ≤ 12 personnes par service.</li>
+        <li>3. Pour migrer : <b>Strangler Application</b> — ne jamais réécrire en big-bang.</li>
+        <li>4. Choisir la <b>communication</b> : sync (HTTP/REST) pour requête-réponse, async (Kafka/RabbitMQ) pour découplage.</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li><b>Strangling the Monolith</b> = remplacer <b>incrémentalement</b> (réponse correcte). Pas « composer », pas « construire ».</li>
+        <li>Microservices ≠ SOA : Microservices = échelle app, BD par service ; SOA = échelle entreprise, BD partagée.</li>
+        <li><b>Kafka = streaming</b> (event-based), pas RabbitMQ.</li>
+        <li><b>RabbitMQ = MQ asynchrone</b>, pas streaming.</li>
+        <li><b>Nanoservices</b> = anti-patron (More the Merrier).</li>
+        <li>Adopter sans CI/CD ni tests = <b>Trying to fly before walking</b>.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li>Goulot I/O sur S3, latence inter-service → <b>revenir au monolithe</b> (cas Amazon Prime Video)</li>
+        <li>Échec d'un service ne doit pas tout casser → <b>Concevoir pour l'échec</b> + circuit breaker</li>
+        <li>Pile technologique partagée imposée → mauvaise foi (gouvernance décentralisée)</li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">10. AOP – Programmation Orientée Aspects</div>
+      <p><b>Méthodologie :</b></p>
+      <ul>
+        <li>1. Identifier les <b>CCC</b> (cross-cutting concerns) : logging, sécurité, transactions, cache, perf.</li>
+        <li>2. Définir un <b>Pointcut</b> = expression qui sélectionne des Join Points.</li>
+        <li>3. Écrire l'<b>Advice</b> = code à exécuter (Before/After/Around).</li>
+        <li>4. Encapsuler dans un <b>Aspect</b>.</li>
+        <li>5. Le <b>Weaver</b> tisse au compile-time, load-time ou runtime.</li>
+      </ul>
+      <p><b>Pièges :</b></p>
+      <ul>
+        <li>« construct that allows injection of CCC » + « pattern expression » → réponse <b>Aspect, Pointcut</b>.</li>
+        <li><b>Joinpoint ≠ Pointcut</b> : Joinpoint = point d'exécution unique ; Pointcut = expression qui matche <b>plusieurs</b> joinpoints.</li>
+        <li><b>Advice ≠ Aspect</b> : Advice = code ; Aspect = module qui contient Pointcut + Advice.</li>
+        <li>Un Aspect <b>ne s'instancie pas</b> explicitement (géré par le runtime).</li>
+        <li>Un Aspect concret <b>ne peut pas être hérité</b>.</li>
+      </ul>
+      <p><b>Décisions rapides :</b></p>
+      <ul>
+        <li>« Logging dispersé partout » → AOP avec Pointcut sur toutes les méthodes publiques (homogène)</li>
+        <li>« Validation différente par méthode » → crosscutting <b>hétérogène</b></li>
+        <li>« Transaction auto avant/après méthode service » → Advice <b>Around</b></li>
+      </ul>
+    </div>
+
+    <div class="sec purple">
+      <div class="sec-title">Synthèse QCM (Examen 2023)</div>
+      <table>
+        <tr><th>Q</th><th>Sujet</th><th>Réponse</th></tr>
+        <tr><td>2.1</td><td>SOLID, plusieurs interfaces simples</td><td><b>ISP</b></td></tr>
+        <tr><td>2.2</td><td>Interface trop complexe</td><td><b>Swiss Army Knife</b></td></tr>
+        <tr><td>2.3</td><td>Affirmation FAUSSE MapReduce</td><td><b>« Input dynamic »</b></td></tr>
+        <tr><td>2.4</td><td>Streaming event-based</td><td><b>Kafka</b></td></tr>
+        <tr><td>2.5</td><td>Refléter changement immédiatement</td><td><b>ACID</b></td></tr>
+        <tr><td>2.6</td><td>CAP, garantie non-sacrifiable</td><td><b>Partition tolerance</b></td></tr>
+        <tr><td>2.7</td><td>Trilemme Blockchain</td><td><b>Sécurité, Scalabilité, Décentralisation</b></td></tr>
+        <tr><td>2.8</td><td>Affirmation correcte</td><td><b>SOAP = XML standardisé</b></td></tr>
+        <tr><td>2.9</td><td>Remplacement incrémental</td><td><b>Strangling the monolith</b></td></tr>
+        <tr><td>2.10</td><td>AOP, blanks</td><td><b>Aspect, Pointcut</b></td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
 </body>
 
