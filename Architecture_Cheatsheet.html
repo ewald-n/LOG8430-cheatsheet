@@ -1,3 +1,4 @@
+<!-- PRINT SETTINGS: Margins = None, Paper = Letter, Print backgrounds = ON -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,17 +15,20 @@
     line-height: 1.05;
     color: #111;
     background: #fff;
+    margin: 0;
+    padding: 0;
   }
 
   .page {
-    width: 210mm;
-    min-height: 297mm;
-    padding: 0;
+    width: 215.9mm;
+    min-height: 279.4mm;
+    padding: 3mm;
     page-break-after: always;
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 3px;
     align-content: start;
+    background: #f8fafc;
   }
 
   .full-width {
@@ -32,59 +36,61 @@
   }
 
   .col { display: flex; flex-direction: column; gap: 2px; }
+  .col:first-child { border-right: 1px solid #cbd5e1; padding-right: 4px; }
+  .col:last-child { padding-left: 4px; }
 
   /* SECTION HEADERS */
   .page-title {
-    font-size: 7pt;
+    font-size: 8pt;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 2px 4px;
-    margin-bottom: 2px;
+    padding: 4px 6px;
+    margin-bottom: 4px;
     grid-column: 1 / -1;
   }
 
   .sec {
     border: 0.4px solid #aaa;
-    padding: 1.5px 2.5px;
-    margin-bottom: 1.5px;
+    padding: 1px 2px;
+    margin-bottom: 2px;
     break-inside: avoid;
   }
 
   .sec-title {
-    font-size: 5.8pt;
+    font-size: 6.2pt;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.3px;
     border-bottom: 0.4px solid #aaa;
-    margin-bottom: 1px;
-    padding-bottom: 1px;
+    margin-bottom: 0.5px;
+    padding: 1.5px 2px;
   }
 
   /* COLOR THEMES */
-  .blue   { border-color: #2563eb; }
-  .blue   .sec-title { color: #1d4ed8; background: #eff6ff; }
-  .green  { border-color: #16a34a; }
-  .green  .sec-title { color: #15803d; background: #f0fdf4; }
-  .orange { border-color: #d97706; }
-  .orange .sec-title { color: #b45309; background: #fffbeb; }
-  .red    { border-color: #dc2626; }
-  .red    .sec-title { color: #b91c1c; background: #fef2f2; }
-  .purple { border-color: #7c3aed; }
-  .purple .sec-title { color: #6d28d9; background: #f5f3ff; }
-  .teal   { border-color: #0d9488; }
-  .teal   .sec-title { color: #0f766e; background: #f0fdfa; }
-  .gray   { border-color: #6b7280; }
-  .gray   .sec-title { color: #374151; background: #f9fafb; }
-  .pink   { border-color: #db2777; }
-  .pink   .sec-title { color: #be185d; background: #fdf2f8; }
+  .blue   { border-color: #2563eb; background: #f5f9ff; }
+  .blue   .sec-title { color: #1d4ed8; background: #dbeafe; }
+  .green  { border-color: #16a34a; background: #f3fdf5; }
+  .green  .sec-title { color: #15803d; background: #dcfce7; }
+  .orange { border-color: #d97706; background: #fffdf0; }
+  .orange .sec-title { color: #b45309; background: #fef3c7; }
+  .red    { border-color: #dc2626; background: #fff5f5; }
+  .red    .sec-title { color: #b91c1c; background: #fee2e2; }
+  .purple { border-color: #7c3aed; background: #f8f5ff; }
+  .purple .sec-title { color: #6d28d9; background: #ede9fe; }
+  .teal   { border-color: #0d9488; background: #f0fdfb; }
+  .teal   .sec-title { color: #0f766e; background: #ccfbf1; }
+  .gray   { border-color: #6b7280; background: #f9fafb; }
+  .gray   .sec-title { color: #374151; background: #e5e7eb; }
+  .pink   { border-color: #db2777; background: #fdf5fa; }
+  .pink   .sec-title { color: #be185d; background: #fce7f3; }
 
-  .pt1 { background: #f0f9ff; }
-  .pt2 { background: #f0fdf4; }
-  .pt3 { background: #fffbeb; }
-  .pt4 { background: #fdf4ff; }
-  .pt5 { background: #fff1f2; }
-  .pt6 { background: #f0fdfa; }
+  .pt1 { background: #eaf4ff; }
+  .pt2 { background: #e8faf0; }
+  .pt3 { background: #fef7e0; }
+  .pt4 { background: #f3eeff; }
+  .pt5 { background: #ffeef0; }
+  .pt6 { background: #e6faf8; }
 
   b { font-weight: 700; }
   em { font-style: italic; color: #555; }
@@ -104,21 +110,22 @@
     text-align: left;
   }
   td {
-    padding: 0.8px 2px;
-    border-bottom: 0.3px solid #ddd;
+    padding: 1.5px 3px;
+    border-bottom: 0.5px solid #cbd5e1;
     vertical-align: top;
   }
-  tr:nth-child(even) td { background: #f8fafc; }
+  tr:nth-child(even) td { background: #edf2f7; }
 
   /* BADGES */
   .badge {
     display: inline-block;
-    font-size: 4pt;
+    font-size: 4.5pt;
     font-weight: 700;
-    padding: 0px 2px;
+    padding: 1px 3px;
     border-radius: 2px;
     color: #fff;
     margin-right: 1px;
+    letter-spacing: 0.2px;
   }
   .ba { background: #2563eb; }
   .bg { background: #16a34a; }
@@ -140,23 +147,31 @@
   /* Warning / tip box */
   .tip {
     background: #fef9c3;
-    border-left: 2px solid #eab308;
+    border-left: 3px solid #eab308;
     padding: 1px 2px;
     margin-top: 1px;
+    margin-bottom: 1px;
     font-size: 4.8pt;
   }
   .danger {
     background: #fee2e2;
-    border-left: 2px solid #dc2626;
+    border-left: 3px solid #dc2626;
     padding: 1px 2px;
     margin-top: 1px;
+    margin-bottom: 1px;
     font-size: 4.8pt;
   }
 
-  p { margin-bottom: 0.8px; }
+  p { margin-bottom: 0.5px; }
 
   @media print {
-    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: letter; margin: 0; }
+    body { 
+      margin: 0; 
+      padding: 0;
+      -webkit-print-color-adjust: exact; 
+      print-color-adjust: exact; 
+    }
     .page { page-break-after: always; }
   }
 </style>
@@ -1446,11 +1461,9 @@ class Moteur { private int pressionHuile; private double temperature;<br>
         <li>Réponse différée à corréler → <b>ACT</b></li>
       </ul>
     </div>
-
-  </div>
-
-  <!-- COL 2 -->
-  <div class="col">
+    <div class="sec gray full-width" style="background:#16a34a;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">Q&A DIAPOSITIVES (Q5-Q24)</div>
+    </div>
 
     <div class="sec purple">
       <div class="sec-title">7. Anti-patrons</div>
@@ -1624,10 +1637,6 @@ class Moteur { private int pressionHuile; private double temperature;<br>
 
   <!-- COL 2 -->
   <div class="col">
-
-    <div class="sec gray full-width" style="background:#16a34a;color:#fff;padding:3px;text-align:center;">
-      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">Q&A DIAPOSITIVES (Q5-Q24)</div>
-    </div>
 
     <div class="sec green">
       <div class="sec-title">Q5 — Système bancaire en ligne</div>
@@ -1847,6 +1856,11 @@ class Moteur { private int pressionHuile; private double temperature;<br>
       <p><b>Réponses NON acceptées :</b> « Modulaire » seul → préciser <b>Pipe-Filter / Layered / MVC / Blackboard</b>. « Distribué » seul → préciser <b>Client-Server / Multitier / Primary-Secondary / Peer-to-peer / Broker / SOA / EDA</b>.</p>
       <p><b>Hors-programme :</b> Semaine 3 (Qualité conception, attributs, métriques). Semaine 4 (code antipatterns diapos 50+).</p>
     </div>
+
+  </div>
+
+  <!-- COL 2 -->
+  <div class="col">
 
   </div>
 </div>
