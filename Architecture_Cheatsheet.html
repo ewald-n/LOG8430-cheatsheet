@@ -19,7 +19,7 @@
   .page {
     width: 210mm;
     min-height: 297mm;
-    padding: 4mm 4mm 4mm 4mm;
+    padding: 0;
     page-break-after: always;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -130,6 +130,9 @@
   .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; }
   .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; }
 
+  /* Remove default bullet points from all lists */
+  ul { list-style: none; padding-left: 4px; }
+  
   /* Inline list */
   ul.il { list-style: none; padding: 0; }
   ul.il li::before { content: "▸ "; color: #6b7280; font-size: 4pt; }
@@ -460,6 +463,259 @@
         <tr><td><b>Consistance</b></td><td>ACID (Atomique, Cohérent, Isolé, Durable)</td><td>BASE (Basic Availability, Soft state, Eventual consistency)</td></tr>
       </table>
       <div class="tip">💡 <b>Astuce Examen :</b> Si on te demande de migrer une application locale vers une version distribuée, attention à l'anti-patron <b>Stovepipe System</b> si tu gardes des accès fichiers locaux au lieu d'utiliser une base NoSQL distribuée !</div>
+    </div>
+    
+    <!-- SOA (SERVICE ORIENTED ARCHITECTURE) -->
+    <div class="sec gray full-width" style="background:#0d9488;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">ARCHITECTURES ORIENTÉES SERVICES (SOA)</div>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">1. Fondements et Définitions</div>
+      <p><b>SOA (Service Oriented Architecture) :</b> Style architectural permettant aux systèmes de collaborer de manière harmonieuse en structurant l'univers en <b>services</b>. Il repose sur la convergence de trois forces : la <b>modularité</b>, l'<b>interopérabilité</b> et l'infrastructure du <b>Web</b>.</p>
+      <p><b>LE SERVICE WEB :</b> Composante logicielle atomique et publique qui expose une interface pour fournir une fonctionnalité ou des données.</p>
+      <ul>
+        <li><b>Indépendant :</b> N'exige aucun autre logiciel pour fonctionner.</li>
+        <li><b>Atomique :</b> Produit des résultats complets.</li>
+        <li><b>Boîte noire :</b> L'implémentation interne est cachée aux clients.</li>
+      </ul>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">2. Caractéristiques Clés (Les 8 Piliers)</div>
+      <table>
+        <tr><th>Caractéristique</th><th>Description</th><th>Avantages</th><th>Défis / Limites</th></tr>
+        <tr><td><b>1. Couplage Faible</b></td><td>Dépendances minimales entre services</td><td>Scalabilité et flexibilité accrues</td><td>Tests et débogage plus complexes</td></tr>
+        <tr><td><b>2. Interfaces Abstraites</b></td><td>Seule l'interface est exposée ; logique cachée</td><td>Portabilité ; indépendance des plateformes</td><td>Réduit la testabilité</td></tr>
+        <tr><td><b>3. Interopérabilité</b></td><td>Communication entre langages/OS via protocoles standards</td><td>Interaction facile de systèmes hétérogènes</td><td>Gestion complexe des transformations de données</td></tr>
+        <tr><td><b>4. Réutilisabilité</b></td><td>Composants modulaires pour divers contextes</td><td>Réduit la duplication ; accélère le dev</td><td>Exige une conception initiale très soignée</td></tr>
+        <tr><td><b>5. Découvrabilité</b></td><td>Identifiables via registre ou APIs</td><td>Encourage la réutilisation</td><td>Gestion lourde des métadonnées</td></tr>
+        <tr><td><b>6. Contrats Standardisés</b></td><td>Comportement garanti par des contrats (ex: WSDL)</td><td>Améliore la prévisibilité</td><td>Charge de gestion des versions de contrats</td></tr>
+        <tr><td><b>7. Autonomie</b></td><td>Chaque service gère sa propre logique et ses données</td><td>Tolérance aux pannes améliorée</td><td>Complexité de coordination accrue</td></tr>
+        <tr><td><b>8. Absence d'État</b></td><td>Aucun contexte client n'est stocké entre les requêtes</td><td>Scalabilité maximale</td><td>Le client doit gérer son propre état</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">3. Composantes et Entités SOA</div>
+      <p><b>LES ENTITÉS :</b></p>
+      <ul>
+        <li><b>Fournisseur :</b> Implémente le service, publie l'interface et garantit la qualité (SLA).</li>
+        <li><b>Client (Consommateur) :</b> Développe l'application-client, génère le <b>stub</b> et suit les termes du fournisseur.</li>
+        <li><b>Réseau :</b> Infrastructure de communication. Les défaillances réseau incombent au fournisseur et affectent la SLA.</li>
+      </ul>
+      <p><b>LES ARTEFACTS TECHNIQUES :</b></p>
+      <ul>
+        <li><b>Interface de service :</b> Document formel (XML/HTML) spécifiant les opérations, paramètres, types de retour et méta-informations (localisation, version).</li>
+        <li><b>Service Stub :</b> Code généré automatiquement permettant l'accès au réseau et la communication depuis le langage de l'application-client.</li>
+        <li><b>UDDI :</b> Référentiel global pour la découverte et l'intégration des services.</li>
+      </ul>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">4. Composition de Services : Orchestration vs Chorégraphie</div>
+      <table>
+        <tr><th>Concept</th><th>Orchestration</th><th>Chorégraphie</th></tr>
+        <tr><td><b>Contrôle</b></td><td><b>Centralisé</b> : Un moteur décide de la séquence</td><td><b>Décentralisé</b> : Collaboration pilotée par les événements</td></tr>
+        <tr><td><b>Mécanisme</b></td><td>Un médiateur appelle chaque service</td><td>Les services réagissent aux événements des autres</td></tr>
+        <tr><td><b>Exemples / Outils</b></td><td>Temporal, Camunda, AWS Step Functions</td><td>Kafka, AWS EventBridge (Serverless)</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">5. Protocoles et Mécanismes de Communication</div>
+      <p><b>RPC (Remote Procedure Call) :</b></p>
+      <ul>
+        <li><b>Fonctionnement :</b> Étend l'appel local au réseau. Le client sérialise les paramètres (Pack) → Envoi → Le serveur désérialise (Unpack) → Exécution.</li>
+        <li><b>Avantages :</b> Haute performance, interaction directe.</li>
+        <li><b>Inconvénients :</b> Couplage étroit, faible découvrabilité.</li>
+      </ul>
+      <hr>
+      <p><b>SOAP (Simple Object Access Protocol) :</b></p>
+      <ul>
+        <li><b>Structure :</b> Enveloppe XML contenant un <b>Header</b> et un <b>Body</b>.</li>
+        <li><b>WSDL :</b> Langage XML décrivant les Types, Messages, PortType (opérations), Binding et Service (adresse).</li>
+        <li><b>Forces :</b> Sécurité entreprise (WS-Security), transactions fiables, gestion d'erreurs normalisée.</li>
+        <li><b>Faiblesses :</b> Très verbeux (XML), lent (parsing), courbe d'apprentissage abrupte.</li>
+      </ul>
+      <hr>
+      <p><b>REST (Representational State Transfer) :</b></p>
+      <ul>
+        <li><b>Style :</b> Basé sur les ressources et les méthodes HTTP standards.</li>
+        <li><b>Méthodes :</b> <b>GET</b> (Lire), <b>POST</b> (Créer), <b>PUT</b> (Mettre à jour), <b>DELETE</b> (Supprimer).</li>
+        <li><b>Forces :</b> Très scalable, performance élevée (léger), supporte la mise en cache.</li>
+        <li><b>Faiblesses :</b> Absence de normes formelles (contrats), difficile à composer/rechercher sans standard.</li>
+      </ul>
+      <hr>
+      <p><b>GRAPHQL :</b></p>
+      <ul>
+        <li><b>Concept :</b> Le client demande <b>exactement</b> les données requises via un seul point d'accès.</li>
+        <li><b>Caractéristiques :</b> Schéma fortement typé, pas de versionnage (le schéma évolue), support du temps réel (subscriptions).</li>
+        <li><b>Inconvénient :</b> Mise en cache complexe, risque de sollicitation serveur sur requêtes complexes.</li>
+      </ul>
+      <hr>
+      <p><b>gRPC (Google RPC) :</b></p>
+      <ul>
+        <li><b>Technologie :</b> Basé sur <b>HTTP/2</b> et <b>Protobuf</b> (format binaire compact).</li>
+        <li><b>Forces :</b> Performance maximale (plus rapide que REST), streaming bidirectionnel, génération auto de stubs.</li>
+        <li><b>Limites :</b> Non supporté nativement par les navigateurs, débogage difficile (binaire).</li>
+      </ul>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">6. Focus Examen : SLA et Métriques</div>
+      <p><b>SLA (Service Level Agreement) :</b> Entente contractuelle sur la qualité du service.</p>
+      <ul>
+        <li><b>Éléments spécifiés :</b> Types de services, méthodes de monitorage, délais de résolution et pénalités.</li>
+      </ul>
+      <p><b>Métriques de performance critiques :</b></p>
+      <ul>
+        <li><b>1. Temps de réponse :</b> Latence pour une demande.</li>
+        <li><b>2. Débit (Throughput) :</b> Nombre de demandes par unité de temps.</li>
+        <li><b>3. Disponibilité :</b> Taux de temps de fonctionnement (Uptime).</li>
+      </ul>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">7. Histoire et Évolution (Chronologie)</div>
+      <ul>
+        <li><b>1991 :</b> CORBA (Partage d'objets via ORB, mais trop complexe/lent).</li>
+        <li><b>1998/1999 :</b> XML-RPC / SOAP (Standardisation XML).</li>
+        <li><b>2000 :</b> REST (Simplification via HTTP).</li>
+        <li><b>2015/2016 :</b> GraphQL / gRPC (Optimisation moderne et performance).</li>
+      </ul>
+    </div>
+    
+    <!-- EDA (EVENT-DRIVEN ARCHITECTURE) -->
+    <div class="sec gray full-width" style="background:#7c3aed;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">ARCHITECTURES ÉVÉNEMENTIELLES (EDA) & PATRONS DE CONCURRENCE</div>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">1. Fondamentaux de l'Architecture Orientée Événements (EDA)</div>
+      <p><b>Définitions Clés :</b></p>
+      <ul>
+        <li><b>Événement :</b> Toute action pertinente au système (ex: clic GUI, changement de données) qui affecte l'état ou le comportement des objets.</li>
+        <li><b>Message :</b> Notification suivant l'événement, produite par le système/producteur et destinée à l'auditeur.</li>
+        <li><b>Bus d'événements :</b> Canal/tampon où les événements sont enregistrés, stockés temporairement et transmis.</li>
+      </ul>
+      <p><b>Propriétés et Avantages :</b></p>
+      <ul>
+        <li><b>Parallélisation :</b> Capacité augmentée car le bus peut être partagé par plusieurs producteurs/consommateurs.</li>
+        <li><b>Évolutivité (Scalability) :</b> Les consommateurs peuvent être répliqués pour paralléliser les tâches.</li>
+        <li><b>Agnotisme Technologique :</b> Interfaces définissables pour différents langages ; base des architectures orientées services (SOA).</li>
+        <li><b>Réactivité :</b> Traitement asynchrone en temps réel, éliminant les traitements par lots (batch) et réduisant les goulots d'étranglement.</li>
+      </ul>
+      <p><b>Les 4 Styles d'Interaction :</b></p>
+      <table>
+        <tr><th>Style</th><th>Initiateur</th><th>Participants</th><th>Exemple de tâche</th></tr>
+        <tr><td><b>Déclenché par le temps</b></td><td>Horaire prévu</td><td>Systèmes prédéfinis</td><td>Sauvegardes, rapports horaires</td></tr>
+        <tr><td><b>Déclenché par la demande</b></td><td>Client (App mobile)</td><td>Client / Serveur</td><td>Appels API, requêtes BD</td></tr>
+        <tr><td><b>Déclenché par événement</b></td><td>Événement externe</td><td>Dynamique / Ouvert</td><td>Notification de pic de conso</td></tr>
+        <tr><td><b>Basé sur les données</b></td><td>Données entrantes</td><td>Systèmes / Sources de données</td><td>Optimisation IA via météo/prix</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">2. Patrons d'Accès et de Configuration de Service</div>
+      <p><em>Objectif : Gérer l'accès aux interfaces et l'évolution des composants sans recompilation statique.</em></p>
+      <p><b>A. Wrapper Façade :</b></p>
+      <ul>
+        <li><b>Définition :</b> Encapsule des fonctions/données de bibliothèques existantes (souvent C non-OO) dans des interfaces OO concises et portables.</li>
+        <li><b>Exemple :</b> Le <b>Hardware Abstraction Layer (HAL)</b> d'Android encapsulant le Kernel Linux.</li>
+        <li><b>Avantages :</b> Maintenabilité, modularité, élimination des erreurs de programmation directe sur API bas niveau.</li>
+        <li><b>Limites :</b> Perte potentielle de fonctionnalités de l'abstraction sous-jacente et légère réduction de performance.</li>
+      </ul>
+      <hr>
+      <p><b>B. Component Configurator (Configurateur de composant) :</b></p>
+      <ul>
+        <li><b>Définition :</b> Permet de lier/délier des implémentations au moment de l'exécution (runtime) sans redémarrer le processus.</li>
+        <li><b>Analogie :</b> Un coach de football substituant des joueurs durant un match.</li>
+        <li><b>Avantages :</b> Configuration dynamique, administration centralisée.</li>
+        <li><b>Limites :</b> Incertitude accrue sur les interactions entre composants, sécurité réduite.</li>
+      </ul>
+      <hr>
+      <p><b>C. Interceptor (Intercepteur) :</b></p>
+      <ul>
+        <li><b>Définition :</b> Ajout transparent de services déclenchés automatiquement par des événements spécifiques.</li>
+        <li><b>Exemple :</b> Réexpédition de courrier lors d'un changement d'adresse.</li>
+        <li><b>Avantages :</b> Extensibilité, séparation des responsabilités (logging, sécurité).</li>
+        <li><b>Limites :</b> Point d'insertion de vulnérabilités, risque d'interceptions en cascade.</li>
+      </ul>
+      <hr>
+      <p><b>D. Extension Interface :</b></p>
+      <ul>
+        <li><b>Définition :</b> Un composant expose plusieurs interfaces pour respecter le principe de <b>ségrégation d'interface</b> et éviter l'encombrement.</li>
+        <li><b>Mécanisme :</b> Utilisation d'une <code>Root Interface</code> avec <code>getExtension()</code> pour accéder aux fonctionnalités spécifiques.</li>
+      </ul>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">3. Patrons de Synchronisation</div>
+      <p><em>Objectif : Minimiser le surcoût de verrouillage et prévenir l'auto-blocage (deadlock).</em></p>
+      <p><b>A. Scoped Locking (Verrouillage de portée) :</b></p>
+      <ul>
+        <li><b>Mécanisme :</b> Le verrou est acquis à l'entrée d'un bloc et libéré automatiquement à la sortie (ex: destructeur en C++), même en cas d'exception.</li>
+        <li><b>Technologie :</b> <code>std::lock_guard</code> en C++.</li>
+        <li><b>Limite :</b> Risque d'interblocage en cas d'appels récursifs.</li>
+      </ul>
+      <hr>
+      <p><b>B. Strategized Locking (Verrouillage stratégique) :</b></p>
+      <ul>
+        <li><b>Mécanisme :</b> Paramétrer le mécanisme de synchronisation comme une stratégie pour s'adapter à diverses architectures sans changer le code métier.</li>
+        <li><b>Avantage :</b> Réutilisabilité et personnalisation selon l'usage (lecture vs écriture).</li>
+      </ul>
+      <hr>
+      <p><b>C. Thread-Safe Interface :</b></p>
+      <ul>
+        <li><b>Mécanisme :</b>
+          <ul>
+            <li>1. Les méthodes <b>publiques</b> (interface) acquièrent le verrou.</li>
+            <li>2. Les méthodes <b>privées</b> (implémentation) font confiance aux publiques et n'acquièrent pas de verrou.</li>
+          </ul>
+        </li>
+        <li><b>Avantage :</b> Évite l'auto-blocage lors d'appels intra-composants ou récursifs.</li>
+      </ul>
+      <hr>
+      <p><b>D. Double-Checked Locking Optimization :</b></p>
+      <ul>
+        <li><b>Objectif :</b> Réduire le surcoût quand une section critique ne doit s'exécuter qu'une seule fois (ex: Singleton).</li>
+        <li><b>Algorithme :</b> Vérifier un flag/pointeur → Si nul, acquérir le verrou → Re-vérifier (double check) → Exécuter.</li>
+      </ul>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">4. Modèles de Concurrence</div>
+      <table>
+        <tr><th>Patron</th><th>Objectif</th><th>Caractéristique Unique</th></tr>
+        <tr><td><b>Active Object</b></td><td>Découpler l'invocation de l'exécution</td><td>L'objet possède son propre thread de contrôle. Utilise <code>Proxy</code>, <code>Scheduler</code> et <code>Servant</code>.</td></tr>
+        <tr><td><b>Monitor Object</b></td><td>Synchroniser les méthodes concurrentes</td><td>Garantit qu'une seule méthode s'exécute à la fois dans l'objet. Utilise <code>wait()</code> et <code>notify()</code>.</td></tr>
+        <tr><td><b>Half-Sync / Half-Async</b></td><td>Découpler traitements synchrones et asynchrones</td><td>Utilise une file d'attente (<code>Queue</code>) entre la couche asynchrone (bas niveau) et synchrone (haut niveau).</td></tr>
+        <tr><td><b>Leader/Followers</b></td><td>Modèle de thread pool efficace</td><td>Un thread est "Leader" (attend l'event), les autres sont "Followers". Le leader promeut un nouveau leader avant de traiter l'event.</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">5. Gestion des Événements (Event Handling)</div>
+      <p><b>Reactor vs Proactor :</b></p>
+      <ul>
+        <li><b>Reactor (Réactif/Synchrone) :</b> L'application attend l'événement (via un démultiplexeur comme <code>select()</code>) et le traite immédiatement. Principe Hollywood : "Ne nous appelez pas, nous vous appellerons".</li>
+        <li><b>Proactor (Proactif/Asynchrone) :</b> L'application lance l'opération et continue. Le système (OS) exécute la tâche en arrière-plan et notifie l'application uniquement à la fin via un <code>Completion Handler</code>.</li>
+      </ul>
+      <p><b>Patrons Complémentaires :</b></p>
+      <ul>
+        <li><b>Asynchronous Completion Token (ACT) :</b> Également appelé modèle <b>"Cookie"</b>. Permet à l'initiateur de passer un jeton au service, qui lui sera retourné inchangé pour identifier le contexte de la réponse.</li>
+        <li><b>Acceptor-Connector :</b> Découple la connexion/initialisation (Acceptor/Connector) du traitement des données (Service Handler). Essentiel pour les systèmes P2P orientés connexion.</li>
+      </ul>
+    </div>
+    
+    <div class="sec purple">
+      <div class="sec-title">⚡ Focus Examen : Points de vigilance</div>
+      <ul>
+        <li><b>Reactor vs Proactor :</b> Dans le Reactor, c'est l'application qui fait l'I/O après notification. Dans le Proactor, c'est l'OS qui fait l'I/O et l'application reçoit le résultat.</li>
+        <li><b>Synchronisation :</b> Ne jamais utiliser <code>Scoped Locking</code> seul dans une méthode récursive (risque de deadlock) ; combiner avec <code>Thread-Safe Interface</code>.</li>
+        <li><b>Performance :</b> <code>Leader/Followers</code> est souvent plus performant que <code>Half-Sync/Half-Async</code> car il évite le passage de données entre threads (pas de file d'attente dynamique).</li>
+      </ul>
     </div>
 
   </div>
@@ -851,687 +1107,184 @@ class Moteur { private int pressionHuile; private double temperature;<br>
         <li><b>Vérification :</b> Les nœuds utilisent la <b>clé publique</b> de l'expéditeur. Si le hash correspond, l'intégrité et l'identité sont prouvées.</li>
       </ul>
     </div>
-
+    
+    <!-- MICROSERVICES -->
+    <div class="sec gray full-width" style="background:#d97706;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">ARCHITECTURES DE MICROSERVICES</div>
+    </div>
+    
     <div class="sec orange">
-      <div class="sec-title">AOP – Programmation Orientée Aspects</div>
-      <p><b>Cross-cutting concern</b> – Préoccupation traversant plusieurs modules : logging, cache, sécurité, transactions.</p>
-      <p><b>Aspect</b> – Construction injectant un cross-cutting concern. <span class="badge bo">QCM ★</span></p>
-      <p><b>Advice</b> – Méthode qui implémente la tâche transversale (log, cache…).</p>
-      <p><b>Pointcut</b> – Expression de motif identifiant OÙ l'Advice est invoqué. <span class="badge bo">QCM ★</span></p>
-      <p><b>Joinpoint</b> – Point d'exécution concret (ex: appel de méthode).</p>
-      <div class="tip">⚠ Réponse : <b>Aspect, Pointcut</b> (option b). Joinpoint = point d'exécution spécifique, Pointcut = pattern/expression qui matche plusieurs joinpoints.</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ PAGE 2 ═══ -->
-<div class="page pt2">
-
-  <div class="page-title full-width" style="background:#064e3b;color:#fff;border-radius:2px;">
-    PAGE 2 · Communication SOA · NoSQL · CAP · ACID/BASE
-  </div>
-
-  <!-- COL 1 -->
-  <div class="col">
-
-    <div class="sec blue">
-      <div class="sec-title">SOA – Mécanismes de Communication</div>
-      <table>
-        <tr><th>Proto</th><th>Format</th><th>Cas d'usage</th><th>Courbe</th></tr>
-        <tr><td><b>SOAP</b></td><td>XML</td><td>Financier, paiement, CRM, télécoms, legacy</td><td>Moy/Difficile</td></tr>
-        <tr><td><b>REST</b></td><td>JSON/XML/HTML</td><td>APIs publiques, ressources simples, web</td><td>Facile</td></tr>
-        <tr><td><b>RPC</b></td><td>JSON</td><td>Appels directs haute perf, composants propriétaires</td><td>Moyenne</td></tr>
-        <tr><td><b>GraphQL</b></td><td>JSON</td><td>Mobile, microservices, requêtes flexibles</td><td>Moy/Difficile</td></tr>
-        <tr><td><b>gRPC</b></td><td>Protobuf</td><td>Latence faible, temps réel, IoT, services internes</td><td>Moy/Difficile</td></tr>
-      </table>
-      <div class="tip">⚠ SOAP est standardisé XML (VRAI). GraphQL ≠ RPC – GraphQL = requêtes flexibles, RPC = appels de fonctions distants. REST : chaque ressource a un URI unique (FAUX de partager les URI).</div>
-    </div>
-
-    <div class="sec green">
-      <div class="sec-title">Affirmations correctes (QCM)</div>
-      <p><b>SOAP</b> = protocole web hautement standardisé format XML. ✓</p>
-      <p><b>GraphQL</b> ≠ exécution distante de fonction (c'est RPC/gRPC qui fait ça). ✗</p>
-      <p><b>REST</b> : ressources NE partagent PAS les URI (URI = identifiant unique). ✗</p>
-    </div>
-
-    <div class="sec orange">
-      <div class="sec-title">Cas d'usage – Quel protocole SOA choisir ?</div>
-      <p><b>Télémédecine (appels directs, sync, faible latence, sécurisé)</b> → <b>RPC</b></p>
-      <ul class="il">
-        <li>Appels de méthode directs entre modules santé</li>
-        <li>Communication temps réel synchrone</li>
-        <li>Chiffrement + authentification intégrés</li>
-        <li>Léger → latence minimale</li>
-        <li>Multi-langages, facile à intégrer</li>
+      <div class="sec-title">1. Définitions et Fondamentaux</div>
+      <p><b>Qu'est-ce qu'un Microservice ?</b></p>
+      <ul>
+        <li><b>Définition Académique :</b> Une version plus petite de la SOA (Service-Oriented Architecture) où chaque service est un processus unique avec une <b>seule responsabilité</b> (Principe Unix).</li>
+        <li><b>Two Pizza Team (Amazon) :</b> Une équipe de microservices doit être suffisamment petite pour être nourrie par deux pizzas (environ une douzaine de personnes).</li>
+        <li><b>Relation avec DevOps :</b> Technologie fondamentale pour DevOps grâce aux conteneurs; ils promeuvent l'automatisation, l'évolution et la livraison continues.</li>
       </ul>
-      <p><b>API publique simple</b> → REST &nbsp;|&nbsp; <b>Données patients complexes/mobile</b> → GraphQL &nbsp;|&nbsp; <b>Legacy bancaire</b> → SOAP</p>
-    </div>
-
-    <div class="sec purple">
-      <div class="sec-title">Théorème CAP</div>
-      <p>Système distribué = <b>max 2 des 3</b> : Consistency (C), Availability (A), Partition Tolerance (P).</p>
-      <p><b>Partition Tolerance = NE PEUT PAS être sacrifiée</b> dans un système distribué (les partitions réseau arrivent toujours). <span class="badge bp">QCM ★</span></p>
-      <table style="margin-top:1px;">
-        <tr><th>Catégorie</th><th>Propriété</th><th>Exemples</th></tr>
-        <tr><td><b>CP</b></td><td>Cohérence + Partition</td><td>MongoDB, HBase, Redis</td></tr>
-        <tr><td><b>AP</b></td><td>Dispo + Partition</td><td>Cassandra, CouchDB</td></tr>
-        <tr><td><b>CA</b></td><td>Cohérence + Dispo</td><td>Oracle, MySQL, SQL Server</td></tr>
-      </table>
-    </div>
-
-    <div class="sec teal">
-      <div class="sec-title">ACID vs BASE</div>
+      <p><b>SOA vs Microservices :</b></p>
       <table>
-        <tr><th></th><th>ACID</th><th>BASE</th></tr>
-        <tr><td><b>Cohérence</b></td><td>Forte, immédiate</td><td>Éventuelle</td></tr>
-        <tr><td><b>Dispo</b></td><td>Limitée</td><td>Haute</td></tr>
-        <tr><td><b>Transactions</b></td><td>Atomiques, isolées</td><td>Optimiste</td></tr>
-        <tr><td><b>Cas</b></td><td>Finance, médecine</td><td>Réseaux sociaux, analytics</td></tr>
-      </table>
-      <p style="margin-top:1px;"><b>Changement immédiat requis</b> → ACID. <span class="badge ba">QCM ★</span></p>
-    </div>
-
-  </div>
-
-  <!-- COL 2 -->
-  <div class="col">
-
-    <div class="sec blue">
-      <div class="sec-title">Bases de données NoSQL – Types</div>
-      <table>
-        <tr><th>Type</th><th>Structure</th><th>Cas d'usage</th></tr>
-        <tr><td><b>Key-Value</b></td><td>clé → valeur</td><td>Cache, sessions, images, dico</td></tr>
-        <tr><td><b>Document</b></td><td>clé → document JSON/XML</td><td>Blogs, CMS, factures, profils</td></tr>
-        <tr><td><b>Graph</b></td><td>nœuds + arêtes</td><td>Réseaux sociaux, fraude, recommandations</td></tr>
-        <tr><td><b>Wide Column</b></td><td>colonnes dynamiques par ligne</td><td>Web crawling, analytics, IoT</td></tr>
+        <tr><th>Caractéristique</th><th>Architecture SOA</th><th>Architecture Microservices</th></tr>
+        <tr><td><b>Portée</b></td><td>Échelle de l'entreprise</td><td>Échelle de l'application</td></tr>
+        <tr><td><b>Réutilisation</b></td><td>Partage de composants</td><td>Réutilisation du code</td></tr>
+        <tr><td><b>Données</b></td><td>Source principale unique (Synchrone)</td><td>Accès local/décentralisé par service</td></tr>
+        <tr><td><b>Communication</b></td><td>Moyens "lourds" (ESB, SOAP)</td><td>Moyens simples (HTTP, Message Broker)</td></tr>
+        <tr><td><b>Gouvernance</b></td><td>Centralisée</td><td>Décentralisée (Polyglotte)</td></tr>
       </table>
     </div>
-
-    <div class="sec green">
-      <div class="sec-title">Cas d'usage NoSQL (QCM)</div>
-      <p><b>Plateforme de blogs (attributs variables, recherche texte + tags)</b> → <b>Document (MongoDB)</b></p>
-      <ul class="il">
-        <li>Semi-structuré : title, content, author, tags, comments, multimedia</li>
-        <li>Flexibilité du schéma (attributs variables)</li>
-        <li>Indexation avancée → recherche full-text efficace</li>
-        <li>Adapté aux applis riches en contenu</li>
+    
+    <div class="sec orange">
+      <div class="sec-title">2. Le Monolithe : Avantages et Désavantages</div>
+      <p><b>Propriétés :</b></p>
+      <ul>
+        <li><b>Processus unique :</b> Un monolithe n'est pas un seul programme, mais un processus unique en exécution (peut être modulaire, mais pas distribué).</li>
+        <li><b>Architecture 3 couches :</b> Client, Serveur, Base de données.</li>
+      </ul>
+      <p><b>Analyse Critique :</b></p>
+      <ul>
+        <li><b>Avantages :</b> Équipe unique productive, facile à tester/déployer (fichiers WAR), supporté nativement par les IDE, mise à l'échelle horizontale simple via équilibreur de charge.</li>
+        <li><b>Inconvénients (Loi de la croissance) :</b>
+          <ul>
+            <li>Surcharge des conteneurs (Tomcat) et IDE</li>
+            <li><b>Frontières floues :</b> Modularité facile à briser involontairement</li>
+            <li><b>Verrouillage (Vendor Lock-in) :</b> Engagement long terme envers une pile technologique (ex: tout Java/Tomcat)</li>
+            <li><b>Déploiement rigide :</b> Un seul changement force le redéploiement de <em>tout</em> le système</li>
+          </ul>
+        </li>
       </ul>
     </div>
-
+    
     <div class="sec orange">
-      <div class="sec-title">Blockchain – Fondamentaux</div>
-      <p><b>Registre numérique distribué</b> – immuable, basé sur consensus, décentralisé (P2P), transparent, sécurisé.</p>
-      <p><b>Trilemme blockchain</b> : Sécurité · Scalabilité · Décentralisation → <b>impossible d'avoir les 3</b>. <span class="badge bo">QCM ★</span></p>
-      <table style="margin-top:1px;">
-        <tr><th></th><th>Proof of Work (PoW)</th><th>Proof of Stake (PoS)</th></tr>
-        <tr><td>Validation</td><td>Puissance calcul (mining)</td><td>Quantité crypto possédée</td></tr>
-        <tr><td>Énergie</td><td>Non-efficace ⚡</td><td>Efficace ✓</td></tr>
-        <tr><td>Sécurité</td><td>Coûteux → robuste</td><td>Contrôle communauté</td></tr>
-        <tr><td>Vulnérab.</td><td>Attaque 51%</td><td>"Nothing at stake"</td></tr>
-        <tr><td>Récompense</td><td>Block reward (mineur)</td><td>Frais de transaction</td></tr>
-      </table>
-      <p style="margin-top:1px;"><b>Blockchain vs BD</b> : BD supporte CRUD. Blockchain = <b>Insert seulement</b> (immuable).</p>
+      <div class="sec-title">3. Caractéristiques des Microservices (9 Principes)</div>
+      <ul>
+        <li><b>1. Composantes via services :</b> Unités remplaçables et évolutives indépendamment.</li>
+        <li><b>2. Produits et non projets :</b> Mentalité "Vous le construisez, vous l'exécutez" (Amazon). L'équipe est responsable du logiciel en production.</li>
+        <li><b>3. Points de terminaison intelligents / Tuyaux stupides :</b> La logique réside chez l'expéditeur/récepteur (HTTP/REST), pas dans le réseau (contrairement aux ESB de la SOA).</li>
+        <li><b>4. Gouvernance décentralisée :</b> Liberté du choix de la pile technologique par service.</li>
+        <li><b>5. Gestion décentralisée des données :</b> Un domaine complexe est divisé en domaines délimités (<b>Bounded Contexts</b> - DDD). Chaque service possède sa propre BD.</li>
+        <li><b>6. Automatisation de l'infrastructure :</b> Investissement massif dans les pipelines CI/CD (Testing et Déploiement "ennuyeux").</li>
+        <li><b>7. Concevoir pour l'échec :</b> Monitoring technique et commercial impératif. Si un service échoue, il doit le faire gracieusement.</li>
+        <li><b>8. Conception évolutive :</b> Possibilité de remplacer un composant sans affecter le système.</li>
+        <li><b>9. Loi de Conway :</b> La structure du logiciel reflète la structure de communication de l'organisation.</li>
+      </ul>
     </div>
-
-    <div class="sec red">
-      <div class="sec-title">MapReduce – Points Clés</div>
-      <p><b>Fonctionnement</b> : split dataset → map tasks (parallèle) → shuffle → reduce.</p>
-      <p><b>Opère exclusivement</b> sur paires &lt;clé, valeur&gt;.</p>
-      <p><b>Dataset d'entrée = statique</b> (pas dynamique). <span class="badge br">QCM ★ Affirmation FAUSSE = "dynamique"</span></p>
-      <div class="g2" style="margin-top:2px;">
-        <div>
-          <b>Hadoop</b><br>
-          Disque (HDFS), batch/linéaire, moins cher, scalable sur big data, sécurité robuste (multi-auth)
-        </div>
-        <div>
-          <b>Spark</b><br>
-          RAM (RDDs), temps réel + batch, plus rapide, moins scalable sur volume pur, auth secret partagé
-        </div>
-      </div>
+    
+    <div class="sec orange">
+      <div class="sec-title">4. Stratégies de Migration et Conception</div>
+      <p><b>Patron Strangler Application (Étouffement) :</b></p>
+      <ul>
+        <li><b>Mécanisme :</b> Le monolithe reste le cœur initial. Les nouvelles fonctionnalités sont ajoutées comme microservices. On remplace progressivement les fonctions de base du monolithe par des microservices jusqu'à disparition complète du monolithe.</li>
+        <li><b>Règle Shotgun Surgery :</b> Si deux services sont modifiés ensemble de façon répétée, ils doivent probablement être fusionnés.</li>
+      </ul>
+      <p><b>Processus d'Assemblage (Chris Richardson) :</b></p>
+      <ul>
+        <li><b>Entrée :</b> User stories, exigences non fonctionnelles (SLA), Wireframes.</li>
+        <li><b>Processus :</b> Définir les opérations système → Définir les sous-domaines → Grouper les sous-domaines en services → Concevoir les collaborations.</li>
+        <li><b>Résultat :</b> Schémas d'architecture, contrats d'API, modèles de Bounded Contexts.</li>
+      </ul>
     </div>
-
-    <div class="sec purple">
-      <div class="sec-title">Streaming : Spark vs Kafka</div>
+    
+    <div class="sec orange">
+      <div class="sec-title">5. Communication et Systèmes Distribués</div>
+      <p><b>Les 8 Fallacies (Illusions) de l'informatique distribuée :</b></p>
+      <p>Le réseau est fiable, la latence est nulle, la bande passante est infinie, le réseau est sécurisé, la topologie ne change pas, il y a un seul administrateur, le coût de transport est nul, le réseau est homogène.</p>
+      <p><b>Modèles de Communication :</b></p>
       <table>
-        <tr><th></th><th>Spark Streaming</th><th>Kafka Streaming</th></tr>
-        <tr><td>Modèle</td><td>Basé sur le <b>temps</b> (micro-batches)</td><td>Basé sur les <b>événements</b></td></tr>
-        <tr><td>Réalité</td><td>Faux stream (petits lots)</td><td>Vrai stream</td></tr>
-        <tr><td>Réactivité</td><td>Moins réactif</td><td>Meilleur pour événements</td></tr>
-        <tr><td>Portabilité</td><td>Stable, compatible Hadoop</td><td>Écosystème propriétaire</td></tr>
+        <tr><th>Modèle</th><th>Mécanisme</th><th>Technologies</th><th>Avantages / Inconvénients</th></tr>
+        <tr><td><b>Synchrone (Bloquant)</b></td><td>Requête-réponse en temps réel</td><td>HTTP/REST, gRPC, GraphQL</td><td>Simple, mais crée un couplage temporel</td></tr>
+        <tr><td><b>Asynchrone (MQ)</b></td><td>File d'attente (Buffer)</td><td>RabbitMQ, ActiveMQ</td><td>Découplé, tolérant aux pannes; difficile à tracer</td></tr>
+        <tr><td><b>Streaming</b></td><td>Journal en ajout uniquement (Append-only)</td><td>Apache Kafka</td><td>Très scalable, gère gros volumes</td></tr>
+        <tr><td><b>Pub-Sub</b></td><td>Diffusion un-à-plusieurs via un canal</td><td>Redis Pub/Sub, SNS</td><td>Faible couplage; duplication possible</td></tr>
       </table>
-      <p style="margin-top:1px;"><b>Framework orienté événements</b> → <b>Kafka</b>. Spark = orienté temps. RabbitMQ = messaging MOM. <span class="badge bp">QCM ★</span></p>
     </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ PAGE 3 ═══ -->
-<div class="page pt3">
-
-  <div class="page-title full-width" style="background:#78350f;color:#fff;border-radius:2px;">
-    PAGE 3 · MOM/Kafka/RabbitMQ · EDA · Patrons Concurrence & Événements
-  </div>
-
-  <!-- COL 1 -->
-  <div class="col">
-
+    
+    <div class="sec orange">
+      <div class="sec-title">6. Focus Examen : Antipatrons d'Adoption</div>
+      <ul>
+        <li><b>Magic Pixie Dust :</b> Croire que les microservices résoudront tous les problèmes sans changer la culture (DevOps).</li>
+        <li><b>Microservices as the Goal :</b> Adopter l'architecture pour la technologie plutôt que pour régler un problème d'affaires.</li>
+        <li><b>Scattershot Adoption :</b> Adoption sans stratégie centrale, chaque équipe fait ses propres choix (manque de coordination).</li>
+        <li><b>Trying to fly before walking :</b> Adopter les microservices sans maîtriser le code propre, les tests automatisés et le CI/CD.</li>
+        <li><b>More the Merrier :</b> Créer des services trop petits (<b>Nanoservices</b>), ce qui explose la complexité de communication.</li>
+        <li><b>Red Flag Law :</b> Utiliser des microservices avec des processus lents (Cascade, tests manuels).</li>
+      </ul>
+    </div>
+    
+    <div class="sec orange">
+      <div class="sec-title">7. Étude de cas : Amazon Prime Video (Retour au Monolithe)</div>
+      <ul>
+        <li><b>Contexte :</b> Passage d'une architecture microservices distribuée (Lambda + Step Functions) à un monolithe en 2023.</li>
+        <li><b>Problème :</b> Goulot d'étranglement dû aux transferts de données excessifs vers S3, latence élevée et coûts d'I/O.</li>
+        <li><b>Solution :</b> Regroupement de tous les composants (détecteurs, convertisseurs) dans un seul processus (Amazon ECS).</li>
+        <li><b>Leçon :</b> Il n'y a pas de modèle universel. L'architecture doit être réévaluée à chaque ordre de grandeur de croissance.</li>
+      </ul>
+    </div>
+    
+    <!-- AOP (PROGRAMMATION ORIENTÉE ASPECTS) -->
+    <div class="sec gray full-width" style="background:#2563eb;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">AOP – PROGRAMMATION ORIENTÉE ASPECTS</div>
+    </div>
+    
     <div class="sec blue">
-      <div class="sec-title">MOM – Middleware Orienté Messages</div>
-      <p>Communication <b>asynchrone et indirecte</b>. Entité principale = message. Modules → producteurs/consommateurs. <b>Broker</b> = l'intergiciel.</p>
-      <p><b>AMQP</b> – Standard ISO pour MOM. Entités : Courtier · Producteur · Consommateur · Échange · Queue · Message.</p>
+      <div class="sec-title">I. Fondamentaux et Paradigme</div>
+      <p><b>Définitions Clés :</b></p>
+      <ul>
+        <li><b>AOP (Aspect-Oriented Programming) :</b> Paradigme de programmation visant à modéliser les fonctionnalités transversales sans affecter les classes du domaine.</li>
+        <li><b>Fonctionnalité Transversale (Cross-cutting Concern - CCC) :</b> Logique qui s'éparpille dans plusieurs modules ou classes (ex: sécurité, logging).</li>
+        <li><b>Niveau d'abstraction :</b> L'AOP est plus abstrait que le paradigme Orienté Objet (OO), se situant au-dessus dans la hiérarchie des langages.</li>
+      </ul>
+      <p><b>Problème résolu par l'AOP :</b></p>
+      <ul>
+        <li><b>Code Tangling (Enchevêtrement) :</b> Plusieurs préoccupations mélangées dans une même classe.</li>
+        <li><b>Code Scattering (Éparpillement) :</b> Une préoccupation dispersée dans plusieurs modules.</li>
+      </ul>
     </div>
-
-    <div class="sec green">
-      <div class="sec-title">RabbitMQ vs Kafka</div>
-      <table>
-        <tr><th>Aspect</th><th>RabbitMQ</th><th>Kafka</th></tr>
-        <tr><td>Broker</td><td>Intelligent (+ décisions)</td><td>Simple</td></tr>
-        <tr><td>Consommateurs</td><td>Simples</td><td>Intelligents</td></tr>
-        <tr><td>Messages</td><td>Consommés (pas de relecture)</td><td>Persistants (relecture possible)</td></tr>
-        <tr><td>Protocole</td><td>AMQP, MQTT, STOMP (standardisés)</td><td>Propriétaire (TCP/IP)</td></tr>
-        <tr><td>Routage</td><td>Multi-mécanismes (Direct, Topic, Fanout, Header)</td><td>Topics + partitions (ordre immuable)</td></tr>
-        <tr><td>Priorité</td><td>Files prioritaires ✓</td><td>Pas de priorité</td></tr>
-        <tr><td>Performance</td><td>Haute mais ressources</td><td>Très haute, optimisée</td></tr>
-        <tr><td>Rôle</td><td>Courtier de messages</td><td>Plateforme streaming + écosystème</td></tr>
-      </table>
-    </div>
-
-    <div class="sec orange">
-      <div class="sec-title">EDA – Architecture Orientée Événements</div>
-      <p><b>Événement</b> – Action pertinente au système (clic, changement données).</p>
-      <p><b>Message</b> – Notification suivant l'événement → vers les listeners.</p>
-      <p><b>Bus d'événements</b> – Canal/tampon : enregistre, stocke temporairement, transmet aux auditeurs.</p>
-      <p style="margin-top:1px;"><b>4 défis principaux EDA :</b></p>
-      <p>1. <b>Accès et configuration de service</b> – configurer l'accès aux interfaces/composants.</p>
-      <p>2. <b>Synchronisation</b> – accès correct aux ressources partagées.</p>
-      <p>3. <b>Concurrence</b> – plusieurs tâches sans interférences.</p>
-      <p>4. <b>Gestion des événements</b> – dispatcher correctement.</p>
-    </div>
-
-    <div class="sec purple">
-      <div class="sec-title">Patrons – Accès et Configuration de Service</div>
-      <p><b>Wrapper Façade</b> – Encapsule API non-OO dans interfaces OO.</p>
-      <p><b>Component Configurator</b> – Bind/unbind des composants à l'exécution sans recompiler.</p>
-      <p><b>Intercepteur</b> – Ajoute services transparents à un framework, déclenché par événement spécifique.</p>
-      <p><b>Extension Interface</b> – 1 composant exporte plusieurs interfaces → évite l'encombrement.</p>
-    </div>
-
-    <div class="sec teal">
-      <div class="sec-title">Patrons de Synchronisation</div>
-      <p><b>Scoped Locking</b> – Verrou acquis/libéré auto à l'entrée/sortie d'une portée.</p>
-      <p><b>Strategized Locking</b> – Paramétrer le mécanisme de sync d'un composant.</p>
-      <p><b>Thread-Safe Interface</b> – Minimise overhead verrou ; évite réacquisition par méthode interne.</p>
-      <p><b>Double-Checked Locking</b> – Réduit overhead sync pour sections critiques acquises une seule fois.</p>
-    </div>
-
-  </div>
-
-  <!-- COL 2 -->
-  <div class="col">
-
-    <div class="sec red">
-      <div class="sec-title">Modèles de Concurrence</div>
-      <p><b>Active Object</b> – Découple exécution méthode de son invocation (thread propre).</p>
-      <p><b>Monitor Object</b> – Une seule méthode s'exécute à la fois au sein d'un objet.</p>
-      <p><b>Half-Sync/Half-Async</b> – Découple traitement async et sync pour simplifier sans perte de perf.</p>
-      <p><b>Leader/Followers</b> – Threads se relayent sur un pool de sources d'événements : détection → démultiplexage → dispatch → traitement.</p>
-    </div>
-
+    
     <div class="sec blue">
-      <div class="sec-title">Patrons de Gestion d'Événements</div>
-      <table>
-        <tr><th>Patron</th><th>Description</th><th>Usage typique</th></tr>
-        <tr><td><b>Reactor</b></td><td>Boucle d'événements synchrone. Dispatch I/O async aux handlers appropriés.</td><td>Serveurs single-thread, select/epoll</td></tr>
-        <tr><td><b>Proactor</b></td><td>Lance opérations async, traite résultats à la fin. Exécution simultanée sans attente.</td><td>P2P, transferts fichiers concurrents <span class="badge ba">★</span></td></tr>
-        <tr><td><b>ACT</b></td><td>Permet démultiplexage et traitement efficace des réponses async.</td><td>Corrélation requête/réponse async</td></tr>
-        <tr><td><b>Acceptor-Connector</b></td><td>Découple connexion/initialisation du traitement une fois connecté.</td><td>Services réseau pair-à-pair</td></tr>
-      </table>
-      <div class="tip">⚠ App P2P, partage fichiers, haute concurrence → <b>Proactor</b> (gestion async complète I/O, pas d'attente active).</div>
+      <div class="sec-title">II. Éléments du Modèle AOP</div>
+      <ul>
+        <li><b>Join Point :</b> Point d'exécution dans le programme (ex: appel de méthode, accès à un attribut).</li>
+        <li><b>Pointcut :</b> Expression qui sélectionne un ensemble de Join Points où un Advice sera appliqué. <span class="badge ba">QCM ★</span></li>
+        <li><b>Advice :</b> Code à exécuter à un Join Point (Before, After, Around).</li>
+        <li><b>Aspect :</b> Module qui encapsule un Pointcut et un Advice pour modéliser une préoccupation transversale. <span class="badge ba">QCM ★</span></li>
+        <li><b>Weaving (Tissage) :</b> Processus d'intégration des Aspects dans le code de base (compile-time, load-time, runtime).</li>
+      </ul>
+      <div class="tip">⚠ <b>Réponse QCM :</b> <b>Aspect, Pointcut</b> (option b). Joinpoint = point d'exécution spécifique, Pointcut = pattern/expression qui matche plusieurs joinpoints.</div>
     </div>
-
-    <div class="sec green">
-      <div class="sec-title">Lambda vs Kappa Architecture</div>
-      <table>
-        <tr><th></th><th>Lambda</th><th>Kappa</th></tr>
-        <tr><td>Paradigme</td><td>Batch + Streaming</td><td>Streaming seul</td></tr>
-        <tr><td>Re-traitement</td><td>Chaque cycle batch</td><td>Seulement si code change</td></tr>
-        <tr><td>Fiabilité</td><td>Batch fiable, streaming approx.</td><td>Exactement-une-fois</td></tr>
-        <tr><td>Ressources</td><td>Toutes les données (requête)</td><td>Algorithmes incrémentiaux (deltas)</td></tr>
-        <tr><td>Complexité</td><td>Plus complexe (2 couches)</td><td>Plus simple</td></tr>
-        <tr><td>Coût</td><td>Plus coûteux</td><td>Moins coûteux</td></tr>
-      </table>
-      <p style="margin-top:1px;"><b>Quand choisir :</b> Latence élevée/historique → Lambda · Temps réel/simple → Kappa</p>
-    </div>
-
-    <div class="sec orange">
-      <div class="sec-title">Microservices – Strangling the Monolith</div>
-      <p><b>Strangling the Monolith</b> – Remplacement progressif/incrémental des fonctionnalités core du monolithe par des microservices. <span class="badge bo">QCM ★</span></p>
-      <p>≠ Composing (assembler) ≠ Constructing (construire from scratch)</p>
-    </div>
-
-    <div class="sec purple">
-      <div class="sec-title">SOA vs Microservices</div>
-      <table>
-        <tr><th></th><th>SOA</th><th>Microservices</th></tr>
-        <tr><td>Portée</td><td>Entreprise</td><td>Application</td></tr>
-        <tr><td>Réutilisation</td><td>Partage de composants</td><td>Réutilisation du code</td></tr>
-        <tr><td>Données</td><td>Source principale directe (sync)</td><td>Copie locale par service (indépendance)</td></tr>
-      </table>
-      <p style="margin-top:1px;"><b>Communication :</b><br>
-      Async/non-bloquant : données partagées, event-driven, req-rep async.<br>
-      Sync/bloquant : requête-réponse synchrone (RPC/REST direct).</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ PAGE 4 ═══ -->
-<div class="page pt4">
-
-  <div class="page-title full-width" style="background:#4c1d95;color:#fff;border-radius:2px;">
-    PAGE 4 · Méthodologie Exam · Récapitulatif QCM · Pièges récurrents
-  </div>
-
-  <!-- COL 1 -->
-  <div class="col">
-
+    
     <div class="sec blue">
-      <div class="sec-title">Récapitulatif Réponses QCM (Examen A2023)</div>
-      <table>
-        <tr><th>Q</th><th>Réponse</th><th>Clé</th></tr>
-        <tr><td>2.1</td><td><b>ISP</b></td><td>Plusieurs interfaces simples &gt; 1 grande</td></tr>
-        <tr><td>2.2</td><td><b>Swiss Army Knife</b></td><td>Interface complexe, trop de cas d'usage</td></tr>
-        <tr><td>2.3</td><td><b>Dataset MapReduce est dynamique</b> (FAUX)</td><td>Dataset est statique</td></tr>
-        <tr><td>2.4</td><td><b>Kafka</b></td><td>Orienté événements (Spark = temps, RabbitMQ = MOM)</td></tr>
-        <tr><td>2.5</td><td><b>ACID</b></td><td>Changement immédiat = cohérence forte</td></tr>
-        <tr><td>2.6</td><td><b>Partition Tolerance</b></td><td>Ne peut pas être sacrifiée dans distribué</td></tr>
-        <tr><td>2.7</td><td><b>Sécurité, Scalabilité, Décentralisation</b></td><td>Trilemme blockchain</td></tr>
-        <tr><td>2.8</td><td><b>SOAP est XML hautement standardisé</b></td><td>GraphQL ≠ RPC ; REST URI uniques</td></tr>
-        <tr><td>2.9</td><td><b>Strangling the Monolith</b></td><td>Remplacement progressif par microservices</td></tr>
-        <tr><td>2.10</td><td><b>Aspect, Pointcut</b></td><td>Aspect=construit, Pointcut=pattern expression</td></tr>
-      </table>
+      <div class="sec-title">III. Types de Crosscutting</div>
+      <ul>
+        <li><b>Homogène :</b> Même code injecté partout (ex: logging identique dans toutes les méthodes).</li>
+        <li><b>Hétérogène :</b> Code différent selon le contexte (ex: validation différente par méthode).</li>
+      </ul>
     </div>
-
-    <div class="sec red">
-      <div class="sec-title">Pièges Récurrents – Ne jamais confondre</div>
-      <p><b>ISP vs SRP</b> : ISP = segmenter les INTERFACES pour les clients. SRP = 1 classe = 1 responsabilité.</p>
-      <p><b>Kafka vs RabbitMQ vs Spark</b> : Kafka = événements + streaming. Spark = temps (micro-batch). RabbitMQ = MOM/messaging.</p>
-      <p><b>Partition Tolerance</b> : NE PEUT PAS être sacrifiée. On choisit entre C et A.</p>
-      <p><b>ACID vs BASE</b> : Immédiat = ACID. Éventuel + haute dispo = BASE.</p>
-      <p><b>Framework vs Plugin</b> : Framework = IoC (il t'appelle). Plugin = hôte décide quand appeler.</p>
-      <p><b>Aspect vs Joinpoint vs Pointcut</b> : Aspect = construct, Advice = méthode, Pointcut = expression/pattern, Joinpoint = point concret d'exécution.</p>
-      <p><b>Blockchain trilemme</b> : Sécurité · Scalabilité · Décentralisation (PAS CAP).</p>
-      <p><b>Reactor vs Proactor</b> : Reactor = dispatch sync. Proactor = async complet (résultat à la fin).</p>
-      <p><b>Styles refusés à l'exam</b> : "modulaire", "distribué", "layered", "multitiered" comme réponse à un style architectural.</p>
-      <p><b>Multitier ≠ Layered</b> : Multitier = MVC déployé sur réseau. Layered = architecture en couches locale.</p>
-      <div class="danger">✖ Ne JAMAIS répondre "distribué", "modulaire", "layered" à la question du style. Donner le nom spécifique (P2P, Broker, SOA, EDA...).</div>
-    </div>
-
-    <div class="sec green">
-      <div class="sec-title">Méthodologie – Question d'architecture (long)</div>
-      <p><b>Étape 1</b> : Identifier les contraintes clés (centralisé/décentralisé ? sync/async ? scalabilité ? latence ?).</p>
-      <p><b>Étape 2</b> : Éliminer les styles non applicables (pas de serveur central → exclure Client-Serveur).</p>
-      <p><b>Étape 3</b> : Nommer le style précis + justifier chaque contrainte mappée à une propriété du style.</p>
-      <p><b>Étape 4 (SOA)</b> : Toujours mentionner le type de communication (SOAP/REST/RPC/GraphQL).</p>
-      <p><b>Étape 5</b> : Structure de réponse → Style choisi · Propriété 1 → justification · Propriété 2 → justification…</p>
-      <div class="tip">Template réponse : "Je choisirais [Style] car : (1) [contrainte] est satisfaite par [propriété du style], (2) [contrainte] → [propriété]..."</div>
-    </div>
-
-  </div>
-
-  <!-- COL 2 -->
-  <div class="col">
-
-    <div class="sec orange">
-      <div class="sec-title">Réponses Modèles – Questions Longues</div>
-
-      <p><b>Q3 – Plugin vs Framework :</b></p>
-      <p>Plugin : ajoute fonctionnalités sans modifier le core. Flux <em>déclenché par événements</em>, hôte décide quand s'exécute le plugin.</p>
-      <p>Framework : plan structuré avec fonctionnalités prédéfinies. Suit le principe <em>IoC</em> : framework gère le cycle de vie et le flux ; dev implémente les détails dans la structure.</p>
-      <p>→ Différence clé : <b>qui contrôle le flux</b> ? Plugin = hôte. Framework = framework lui-même (Hollywood Principle : "Don't call us, we'll call you").</p>
-
-      <p style="margin-top:2px;"><b>Q4.1 – App partage fichiers sans serveur central :</b></p>
-      <p>→ <b>Peer-to-Peer (P2P)</b> : (1) partage direct sans serveur central, (2) scalable car chaque pair apporte des ressources, (3) réduit coûts infra centralisée, (4) évite bottlenecks serveurs centraux.</p>
-
-      <p style="margin-top:2px;"><b>Q4.2 – Patron événement pour app P2P :</b></p>
-      <p>→ <b>Proactor</b> : gestion async complète des I/O. Haute concurrence (nombreux transferts simultanés), pas d'attente active, perf optimale pour P2P.</p>
-
-      <p style="margin-top:2px;"><b>Q5 – NoSQL pour plateforme blogs :</b></p>
-      <p>→ <b>Document (MongoDB)</b> : attributs variables (schema flexible), recherche full-text + tags (indexation avancée), adapté contenu riche et semi-structuré.</p>
-
-      <p style="margin-top:2px;"><b>Q6.1 – SOA Télémédecine (sync, faible latence, sécurisé) :</b></p>
-      <p>→ <b>RPC</b> : appels directs entre modules, sync, léger (latence min), supporte chiffrement + auth, multi-langages.</p>
-    </div>
-
-    <div class="sec purple">
-      <div class="sec-title">Blockchain – Questions Type Examen</div>
-      <p><b>PoW vs PoS (affirmation correcte)</b> : PoW = puissance calcul. PoS = quantité crypto possédée. PoS = économe en énergie. PoW = sécurité coûteuse robuste.</p>
-      <p><b>Trilemme</b> : Blockchain ne peut garantir simultanément Sécurité + Scalabilité + Décentralisation.</p>
-      <p><b>Blockchain ≠ BD</b> : BD → CRUD. Blockchain → Insert uniquement (immuable, tamper-proof).</p>
-    </div>
-
-    <div class="sec teal">
-      <div class="sec-title">Évolution des Styles – Vue d'ensemble</div>
-      <table>
-        <tr><th>Famille</th><th>Styles</th></tr>
-        <tr><td><b>Monolithique</b></td><td>Mainframe, Modulaire, Pipe-Filter, Layered, MVC, Blackboard</td></tr>
-        <tr><td><b>Distribué</b></td><td>Client-Server, Multitier, Primary-Secondary, P2P, Broker, SOA, EDA</td></tr>
-      </table>
-      <p style="margin-top:1px;"><b>Clé de décision rapide :</b><br>
-      Sans serveur central → P2P<br>
-      Découverte dynamique → Broker<br>
-      Tout en services → SOA/Microservices<br>
-      Événements asynchrones → EDA<br>
-      Réplication parallèle → Primary-Secondary<br>
-      2 entités seulement → Client-Server</p>
-    </div>
-
-    <div class="sec gray">
-      <div class="sec-title">Rappels Notation / Points</div>
-      <table>
-        <tr><th>Question</th><th>Points</th><th>À faire</th></tr>
-        <tr><td>Section 2 (QCM × 10)</td><td>20 pts</td><td>1 réponse par question</td></tr>
-        <tr><td>Q3 Plugin vs Framework</td><td>6 pts</td><td>Définition + contrôle flux</td></tr>
-        <tr><td>Q4.1 Style archi</td><td>8 pts</td><td>Nommer + justifier chaque contrainte</td></tr>
-        <tr><td>Q4.2 Patron événement</td><td>4 pts</td><td>1 patron + justification scénario</td></tr>
-        <tr><td>Q5 NoSQL</td><td>7 pts</td><td>Type + pourquoi vs autres types</td></tr>
-        <tr><td>Q6.1 SOA Communication</td><td>10 pts</td><td>Protocole + détail exigences → mapping</td></tr>
-      </table>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ PAGE 5 ═══ -->
-<div class="page pt5">
-
-  <div class="page-title full-width" style="background:#881337;color:#fff;border-radius:2px;">
-    PAGE 5 · Synthèse Complète – Tous les Thèmes du Cours
-  </div>
-
-  <!-- COL 1 -->
-  <div class="col">
-
+    
     <div class="sec blue">
-      <div class="sec-title">Décision Rapide – Quel Style Architectural ?</div>
-      <table>
-        <tr><th>Contrainte principale</th><th>Style recommandé</th></tr>
-        <tr><td>Pas de serveur central, direct entre pairs</td><td><b>P2P</b></td></tr>
-        <tr><td>Découverte dynamique de composants réseau</td><td><b>Broker</b></td></tr>
-        <tr><td>Tout est service, protocole explicite requis</td><td><b>SOA / Microservices</b></td></tr>
-        <tr><td>Réactions aux changements d'état/événements</td><td><b>EDA</b></td></tr>
-        <tr><td>Réplication, parallélisme, tâches distribuées</td><td><b>Primary-Secondary</b></td></tr>
-        <tr><td>2 entités distinctes, communication réseau</td><td><b>Client-Server</b></td></tr>
-        <tr><td>MVC déployé sur réseau</td><td><b>Multitier</b></td></tr>
-        <tr><td>Flux de transformation de données</td><td><b>Pipe-Filter</b></td></tr>
-        <tr><td>Espace partagé, expertise spécialisée</td><td><b>Blackboard</b></td></tr>
-      </table>
+      <div class="sec-title">IV. Domaines d'Application</div>
+      <ul>
+        <li><b>Logging :</b> Tracer les appels de méthodes sans polluer le code métier.</li>
+        <li><b>Sécurité :</b> Vérifier les permissions avant l'exécution.</li>
+        <li><b>Gestion des transactions :</b> Démarrer/valider des transactions automatiquement.</li>
+        <li><b>Gestion d'erreurs :</b> Intercepter et gérer les exceptions de manière centralisée.</li>
+        <li><b>Caching :</b> Mettre en cache les résultats de méthodes coûteuses.</li>
+        <li><b>Synchronisation :</b> Gérer l'accès concurrent aux ressources partagées.</li>
+      </ul>
     </div>
-
-    <div class="sec green">
-      <div class="sec-title">Décision Rapide – Quel NoSQL ?</div>
-      <table>
-        <tr><th>Besoin</th><th>Type NoSQL</th><th>Exemple</th></tr>
-        <tr><td>Cache, sessions, accès par clé</td><td>Key-Value</td><td>Redis</td></tr>
-        <tr><td>Données semi-struct, attributs variables, contenu riche</td><td>Document</td><td>MongoDB</td></tr>
-        <tr><td>Relations complexes, graphe social, fraude</td><td>Graph</td><td>Neo4j</td></tr>
-        <tr><td>Big data, colonnes dynamiques, analytics</td><td>Wide Column</td><td>Cassandra, HBase</td></tr>
-      </table>
-    </div>
-
-    <div class="sec orange">
-      <div class="sec-title">Décision Rapide – Quel Protocole SOA ?</div>
-      <table>
-        <tr><th>Scénario</th><th>Protocole</th></tr>
-        <tr><td>Appels directs sync, latence min, composants internes</td><td><b>RPC / gRPC</b></td></tr>
-        <tr><td>API publique, CRUD ressources, HTTP standard</td><td><b>REST</b></td></tr>
-        <tr><td>Requêtes flexibles, mobile, éviter over/under-fetching</td><td><b>GraphQL</b></td></tr>
-        <tr><td>Systèmes legacy, finance, transactions critiques XML</td><td><b>SOAP</b></td></tr>
-      </table>
-    </div>
-
-    <div class="sec purple">
-      <div class="sec-title">Décision Rapide – Quel Patron d'Événements ?</div>
-      <table>
-        <tr><th>Besoin</th><th>Patron</th></tr>
-        <tr><td>Boucle événements, dispatch sync, serveur simple</td><td><b>Reactor</b></td></tr>
-        <tr><td>Async complet, haute concurrence, P2P, fichiers</td><td><b>Proactor</b></td></tr>
-        <tr><td>Corréler requêtes async avec leurs réponses</td><td><b>ACT</b></td></tr>
-        <tr><td>Découpler connexion/initialisation du traitement réseau</td><td><b>Acceptor-Connector</b></td></tr>
-      </table>
-    </div>
-
-    <div class="sec teal">
-      <div class="sec-title">Décision Rapide – ACID vs BASE ?</div>
-      <table>
-        <tr><th>Besoin</th><th>Modèle</th></tr>
-        <tr><td>Changement immédiat, cohérence forte, transactions atomiques</td><td><b>ACID</b></td></tr>
-        <tr><td>Haute disponibilité, cohérence éventuelle, tolérance perte fraîcheur</td><td><b>BASE</b></td></tr>
-      </table>
-    </div>
-
-    <div class="sec red">
-      <div class="sec-title">Décision Rapide – Lambda vs Kappa ?</div>
-      <table>
-        <tr><th>Besoin</th><th>Architecture</th></tr>
-        <tr><td>Données historiques + temps réel, latence élevée OK</td><td><b>Lambda</b></td></tr>
-        <tr><td>Temps réel uniquement, simplicité, retraitement rare</td><td><b>Kappa</b></td></tr>
-      </table>
-    </div>
-
-  </div>
-
-  <!-- COL 2 -->
-  <div class="col">
-
+    
     <div class="sec blue">
-      <div class="sec-title">Tous les Principes SOLID – Violations Types</div>
+      <div class="sec-title">V. AspectJ : Résumé Syntaxique et Règles</div>
       <table>
-        <tr><th>Principe</th><th>Violation typique</th><th>Fix</th></tr>
-        <tr><td><b>SRP</b></td><td>Classe User gère auth + email + DB</td><td>Séparer en 3 classes</td></tr>
-        <tr><td><b>OCP</b></td><td>Modifier code existant pour ajouter feature</td><td>Sous-classer / implémenter interface</td></tr>
-        <tr><td><b>LSP</b></td><td>Sous-classe lève exception sur méthode héritée</td><td>Revoir hiérarchie ou composition</td></tr>
-        <tr><td><b>ISP</b></td><td>Interface avec 10 méthodes dont 8 inutilisées</td><td>Découper en interfaces focalisées</td></tr>
-        <tr><td><b>DIP</b></td><td>Classe dépend de MySQLDatabase directement</td><td>Dépendre de IDatabase (abstraction)</td></tr>
+        <tr><th>Caractéristique</th><th>Aspect</th><th>Classe</th></tr>
+        <tr><td><b>Attributs/Méthodes</b></td><td>Oui</td><td>Oui</td></tr>
+        <tr><td><b>Abstrait</b></td><td>Oui</td><td>Oui</td></tr>
+        <tr><td><b>Instanciation</b></td><td><b>Non</b> (géré par le runtime)</td><td>Oui</td></tr>
+        <tr><td><b>Privilèges</b></td><td>Peut accéder aux membres <code>private</code> (<code>privileged aspect</code>)</td><td>Non (encapsulation stricte)</td></tr>
+        <tr><td><b>Héritage</b></td><td>Ne peut pas dériver d'un aspect <b>concret</b></td><td>Peut dériver d'une classe concrète</td></tr>
       </table>
-    </div>
-
-    <div class="sec green">
-      <div class="sec-title">Synthèse Anti-Patrons – Comment les identifier</div>
-      <table>
-        <tr><th>Symptôme observé</th><th>Anti-patron</th></tr>
-        <tr><td>Interface expose 50 méthodes, chaque client en utilise 3</td><td>Swiss Army Knife</td></tr>
-        <tr><td>Éléments horizontaux (couches) mélangés avec verticaux (modules)</td><td>Jumble</td></tr>
-        <tr><td>Doc de 500 pages avant de coder quoi que ce soit</td><td>Cover Your Assets</td></tr>
-        <tr><td>Décision par consensus de 20 personnes → compromis inutile</td><td>Design by Committee</td></tr>
-        <tr><td>Migration distribué, anciennes interfaces inadaptées</td><td>Autogenerated Stovepipe</td></tr>
-        <tr><td>Chaque intégration système → implémentation custom</td><td>Stovepipe System</td></tr>
-        <tr><td>Tout refaire from scratch malgré existant équivalent</td><td>Reinvent the Wheel</td></tr>
-        <tr><td>Dépend AWS propriétaire sans abstraction</td><td>Vendor Lock-in</td></tr>
-      </table>
-    </div>
-
-    <div class="sec orange">
-      <div class="sec-title">Frameworks – Définitions & Comparaison Complète</div>
-      <table>
-        <tr><th>Concept</th><th>Propriété clé</th><th>Contrôle du flux</th></tr>
-        <tr><td><b>Framework</b></td><td>Squelette à moitié impl., générique. Étendu par le dev.</td><td>Framework contrôle (IoC)</td></tr>
-        <tr><td><b>Plugin</b></td><td>Système core atomique + indépendant. Plugin = extension optionnelle.</td><td>Hôte décide quand appeler</td></tr>
-        <tr><td><b>Écosystème</b></td><td>Réseau d'outils, communauté définit les règles.</td><td>Communauté / open</td></tr>
-        <tr><td><b>Bibliothèque</b></td><td>Tu appelles la lib (inverse du framework).</td><td>Dev contrôle</td></tr>
-      </table>
-    </div>
-
-    <div class="sec purple">
-      <div class="sec-title">AOP – Vocabulaire Complet</div>
-      <table>
-        <tr><th>Terme</th><th>Définition</th></tr>
-        <tr><td><b>Cross-cutting concern</b></td><td>Préoccupation qui traverse plusieurs modules (log, cache, sécurité, transactions)</td></tr>
-        <tr><td><b>Aspect</b></td><td>Construct permettant l'injection d'un cross-cutting concern</td></tr>
-        <tr><td><b>Advice</b></td><td>Méthode qui implémente la tâche transversale</td></tr>
-        <tr><td><b>Pointcut</b></td><td>Expression/pattern identifiant OÙ l'Advice est invoqué</td></tr>
-        <tr><td><b>Joinpoint</b></td><td>Point d'exécution concret où l'Advice peut s'appliquer</td></tr>
-        <tr><td><b>Weaving</b></td><td>Processus d'injection des aspects dans le code</td></tr>
-      </table>
-      <div class="tip">Exam réponse : Aspect, <b>Pointcut</b> (pas Joinpoint). Pointcut = pattern (plusieurs points). Joinpoint = instance concrète.</div>
-    </div>
-
-    <div class="sec teal">
-      <div class="sec-title">Microservices – Communication Patterns</div>
-      <p><b>Async/Non-bloquant</b> (émetteur n'attend pas) :</p>
-      <p>• Données partagées · Event-driven · Requête-réponse async</p>
-      <p><b>Sync/Bloquant</b> (émetteur bloque jusqu'à réponse) :</p>
-      <p>• Requête-réponse synchrone (REST direct, RPC)</p>
-      <p><b>Strangling the Monolith</b> = migration incrémentale : extraire fonctionnalité → nouveau microservice → redirections progressives → monolithe réduit → eventuel remplacement complet.</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ PAGE 6 ═══ -->
-<div class="page pt6">
-
-  <div class="page-title full-width" style="background:#134e4a;color:#fff;border-radius:2px;">
-    PAGE 6 · Références Croisées · Tableaux Comparatifs Finaux · Derniers Pièges
-  </div>
-
-  <!-- COL 1 -->
-  <div class="col">
-
-    <div class="sec blue">
-      <div class="sec-title">Tableau Comparatif : Tous les Styles Distribués</div>
-      <table>
-        <tr><th>Style</th><th>Centralisation</th><th>Scalabilité</th><th>Cas typique</th></tr>
-        <tr><td><b>Client-Server</b></td><td>Centralisé</td><td>Limitée</td><td>Web classique, email</td></tr>
-        <tr><td><b>Multitier</b></td><td>Semi</td><td>Bonne</td><td>Applications web N-tier</td></tr>
-        <tr><td><b>Primary-Secondary</b></td><td>Centralisé (primary)</td><td>Bonne (réplication)</td><td>BD répliquées, DNS</td></tr>
-        <tr><td><b>P2P</b></td><td>Décentralisé</td><td>Excellente</td><td>BitTorrent, blockchain</td></tr>
-        <tr><td><b>Broker</b></td><td>Semi (découverte)</td><td>Bonne</td><td>CORBA, service registry</td></tr>
-        <tr><td><b>SOA</b></td><td>Services indépendants</td><td>Excellente</td><td>Enterprise integration</td></tr>
-        <tr><td><b>EDA</b></td><td>Décentralisé</td><td>Excellente</td><td>IoT, temps réel, analytics</td></tr>
-        <tr><td><b>Microservices</b></td><td>Indépendants</td><td>Excellente</td><td>Netflix, Spotify, cloud-native</td></tr>
-      </table>
-    </div>
-
-    <div class="sec green">
-      <div class="sec-title">Tableau Comparatif : CAP + Exemples BD</div>
-      <table>
-        <tr><th>BD</th><th>Type NoSQL</th><th>CAP</th><th>Modèle</th></tr>
-        <tr><td>MongoDB</td><td>Document</td><td>CP</td><td>BASE (configurable)</td></tr>
-        <tr><td>Redis</td><td>Key-Value</td><td>CP</td><td>ACID (transactions)</td></tr>
-        <tr><td>HBase</td><td>Wide Column</td><td>CP</td><td>BASE</td></tr>
-        <tr><td>Cassandra</td><td>Wide Column</td><td>AP</td><td>BASE</td></tr>
-        <tr><td>CouchDB</td><td>Document</td><td>AP</td><td>BASE</td></tr>
-        <tr><td>MySQL</td><td>Relationnel</td><td>CA</td><td>ACID</td></tr>
-        <tr><td>Oracle</td><td>Relationnel</td><td>CA</td><td>ACID</td></tr>
-        <tr><td>Neo4j</td><td>Graph</td><td>CA</td><td>ACID</td></tr>
-      </table>
-    </div>
-
-    <div class="sec orange">
-      <div class="sec-title">Tableau Comparatif : Patrons Concurrence</div>
-      <table>
-        <tr><th>Patron</th><th>But</th><th>Mécanisme</th></tr>
-        <tr><td><b>Active Object</b></td><td>Découpler invocation / exécution</td><td>Thread dédié par objet</td></tr>
-        <tr><td><b>Monitor Object</b></td><td>1 méthode à la fois par objet</td><td>Mutex implicite</td></tr>
-        <tr><td><b>Half-Sync/Half-Async</b></td><td>Simplifier sans perdre perf</td><td>Queue entre couches sync/async</td></tr>
-        <tr><td><b>Leader/Followers</b></td><td>Pool de threads sur sources événements</td><td>Thread leader attend, cède au suivant</td></tr>
-      </table>
-    </div>
-
-    <div class="sec purple">
-      <div class="sec-title">Tableau Comparatif : Patrons Synchronisation</div>
-      <table>
-        <tr><th>Patron</th><th>Problème résolu</th></tr>
-        <tr><td><b>Scoped Locking</b></td><td>Verrou oublié à la sortie (exception etc.)</td></tr>
-        <tr><td><b>Strategized Locking</b></td><td>Mécanisme sync hardcodé dans composant</td></tr>
-        <tr><td><b>Thread-Safe Interface</b></td><td>Réacquisition verrou interne (deadlock)</td></tr>
-        <tr><td><b>Double-Checked Locking</b></td><td>Overhead sync sur init one-time</td></tr>
-      </table>
-    </div>
-
-  </div>
-
-  <!-- COL 2 -->
-  <div class="col">
-
-    <div class="sec red">
-      <div class="sec-title">Derniers Pièges à Ne Pas Rater</div>
-      <div class="danger">
-        <b>1. Blockchain trilemme ≠ CAP</b><br>
-        Blockchain : Sécurité + Scalabilité + Décentralisation.<br>
-        CAP : Consistency + Availability + Partition Tolerance.
-      </div>
-      <div class="danger" style="margin-top:1px;">
-        <b>2. "Input MapReduce est dynamique" = FAUX</b><br>
-        Dataset d'entrée MapReduce = statique (fixé avant le job).
-      </div>
-      <div class="danger" style="margin-top:1px;">
-        <b>3. Partition Tolerance = obligatoire dans systèmes distribués</b><br>
-        On ne peut PAS la sacrifier. On choisit entre C et A.
-      </div>
-      <div class="danger" style="margin-top:1px;">
-        <b>4. Kafka ≠ "orienté temps"</b><br>
-        Kafka = orienté événements. Spark Streaming = orienté temps (micro-batch).
-      </div>
-      <div class="danger" style="margin-top:1px;">
-        <b>5. ISP ≠ SRP</b><br>
-        ISP : découper interfaces pour les clients qui n'utilisent pas tout.<br>
-        SRP : 1 classe = 1 raison de changer.
-      </div>
-      <div class="danger" style="margin-top:1px;">
-        <b>6. Proactor ≠ Reactor</b><br>
-        Reactor = dispatch sync (attend événement → appelle handler).<br>
-        Proactor = async complet (lance op → callback sur complétion).
-      </div>
-      <div class="tip" style="margin-top:1px;">
-        <b>7. SOA : toujours mentionner le protocole !</b><br>
-        Si style = SOA → obligatoire de préciser SOAP/REST/RPC/GraphQL.
-      </div>
-    </div>
-
-    <div class="sec teal">
-      <div class="sec-title">Blockchain – Résumé Complet</div>
-      <table>
-        <tr><th>Propriété</th><th>Valeur</th></tr>
-        <tr><td>Type</td><td>Registre numérique distribué (P2P)</td></tr>
-        <tr><td>Immuabilité</td><td>Oui – Insert uniquement (pas de update/delete)</td></tr>
-        <tr><td>Consensus</td><td>PoW (calcul) ou PoS (possession crypto)</td></tr>
-        <tr><td>Trilemme</td><td>Sécurité · Scalabilité · Décentralisation (max 2)</td></tr>
-        <tr><td>vs BD relationnelle</td><td>BD = CRUD + centralisé. Blockchain = Insert + décentralisé</td></tr>
-        <tr><td>Transparence</td><td>Registre public, transparent</td></tr>
-        <tr><td>Sécurité</td><td>Cryptographie + consensus (tamper-proof)</td></tr>
-      </table>
-    </div>
-
-    <div class="sec gray">
-      <div class="sec-title">Récapitulatif – Décisions d'Architecture en 30s</div>
-      <p style="margin-bottom:1px;"><b>Sans serveur central ?</b> → P2P</p>
-      <p style="margin-bottom:1px;"><b>Haute concurrence async + I/O ?</b> → Proactor</p>
-      <p style="margin-bottom:1px;"><b>Données variables + recherche texte ?</b> → Document NoSQL</p>
-      <p style="margin-bottom:1px;"><b>Cohérence immédiate requise ?</b> → ACID</p>
-      <p style="margin-bottom:1px;"><b>Appels directs sync faible latence ?</b> → RPC</p>
-      <p style="margin-bottom:1px;"><b>API publique simple ?</b> → REST</p>
-      <p style="margin-bottom:1px;"><b>Remplacer monolithe progressivement ?</b> → Strangling the Monolith</p>
-      <p style="margin-bottom:1px;"><b>Interface trop grande → violer ISP ?</b> → Découper en interfaces spécialisées</p>
-      <p style="margin-bottom:1px;"><b>Framework vs lib ?</b> → Framework = IoC (il t'appelle)</p>
-      <p style="margin-bottom:1px;"><b>Aspect vs Pointcut ?</b> → Aspect = construct, Pointcut = expression pattern</p>
-      <p style="margin-bottom:1px;"><b>Streaming orienté événements ?</b> → Kafka (pas Spark)</p>
-      <p style="margin-bottom:1px;"><b>Données historiques + streaming ?</b> → Lambda</p>
-      <p style="margin-bottom:1px;"><b>Streaming seul, simple ?</b> → Kappa</p>
-      <p><b>P ne peut pas être sacrifié dans distribué ?</b> → Partition Tolerance (CAP)</p>
-    </div>
-
-    <div class="sec pink">
-      <div class="sec-title">Semaines HORS programme (Examen Final)</div>
-      <p>✗ Semaine 3 : Qualité conception, attributs qualité, métriques qualité.</p>
-      <p>✗ Semaine 4 : Code antipatterns (slides 50 à la fin).</p>
-      <p><em>Tout le reste du cours est potentiellement au programme.</em></p>
     </div>
 
   </div>
 </div>
 
 </body>
-</html>
+
