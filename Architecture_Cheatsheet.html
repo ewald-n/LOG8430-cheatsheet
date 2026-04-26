@@ -706,6 +706,151 @@ class Moteur { private int pressionHuile; private double temperature;<br>
       <p><b>2. Métriques de Produit vs Processus :</b> <b>Produit</b> (Mesure le logiciel : Lignes de code, complexité, couplage CBO, cohésion LCOM) · <b>Processus</b> (Mesure le cycle de développement : Nombre de bugs corrigés, temps par tâche).</p>
       <p><b>3. Points Critiques :</b> <b>Cohésion</b> (Force du lien interne. On veut une cohésion FORTE) · <b>Couplage</b> (Interdépendance entre les classes. On veut un couplage FAIBLE).</p>
     </div>
+    
+    <!-- BLOCKCHAIN -->
+    <div class="sec gray full-width" style="background:#0d9488;color:#fff;padding:3px;text-align:center;">
+      <div style="font-size:7pt;font-weight:bold;letter-spacing:0.5px;">BLOCKCHAIN</div>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">1. Concepts Fondamentaux et Définition</div>
+      <p>La <b>Blockchain</b> est un registre numérique distribué, immuable et basé sur le consensus, utilisant un réseau Peer-to-Peer (P2P) pour sécuriser des données sans autorité centrale.</p>
+      <p><b>Propriétés Clés :</b></p>
+      <ul>
+        <li><b>Immuabilité :</b> Les données sont permanentes et inaltérables ; on ne peut qu'actualiser l'état du système via de nouvelles transactions.</li>
+        <li><b>Transparence :</b> Registre public où toutes les données sont visibles par les participants.</li>
+        <li><b>Décentralisation :</b> Copies du registre distribuées sur le réseau ; pas de point de défaillance unique.</li>
+        <li><b>Consensus :</b> Mécanisme de vérification de la confiance pour valider l'état du système.</li>
+      </ul>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">2. Architecture et Fonctionnement</div>
+      <p><b>Structure des Blocs et Transactions :</b></p>
+      <ul>
+        <li><b>Bloc :</b> Contient plusieurs transactions validées cryptographiquement.</li>
+        <li><b>Liaison :</b> Chaque bloc contient le <b>Hash</b> du bloc précédent (chaînage), rendant toute modification rétroactive virtuellement impossible sans recalculer toute la chaîne.</li>
+      </ul>
+      <p><b>Processus d'ajout :</b></p>
+      <ul>
+        <li>1. Demande/Authentification d'une transaction</li>
+        <li>2. Création d'un bloc de transaction</li>
+        <li>3. Diffusion à chaque nœud du réseau</li>
+        <li>4. Validation par les nœuds (Consensus)</li>
+        <li>5. Ajout à la blockchain existante et distribution de la mise à jour</li>
+      </ul>
+      <p><b>Couches Fonctionnelles (Architecture Bitcoin) :</b></p>
+      <table>
+        <tr><th>Couche</th><th>Description</th><th>Technologies/Exemples</th></tr>
+        <tr><td><b>Application</b></td><td>Services pour l'utilisateur final</td><td>Portefeuilles, DApps</td></tr>
+        <tr><td><b>Consensus</b></td><td>Règles de validation et accord</td><td>PoW, PoS</td></tr>
+        <tr><td><b>Réseau</b></td><td>Interactions entre nœuds pairs</td><td>Protocole P2P</td></tr>
+        <tr><td><b>Données</b></td><td>Persistance et sécurité des messages</td><td>Transactions, Hashes, Signatures</td></tr>
+        <tr><td><b>Matérielle</b></td><td>Infrastructure physique/virtuelle</td><td>Serveurs, VM, Nœuds</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">3. Le Problème des Généraux Byzantins (BFT)</div>
+      <p>Problème de théorie des jeux : Comment des parties dispersées peuvent-elles atteindre un consensus sans autorité centrale, sachant que certains acteurs peuvent être des traîtres?</p>
+      <p><b>Paramètres Critiques pour l'Examen :</b></p>
+      <ul>
+        <li><b>Condition de Victoire :</b> Nécessite que 2/3 des généraux attaquent simultanément.</li>
+        <li><b>Seuil de Tolérance (3f+1) :</b>
+          <ul>
+            <li><em>f</em> = nombre de traîtres</li>
+            <li><b>Nombre minimum de généraux</b> nécessaires pour garantir le consensus : <b>3f + 1</b></li>
+            <li><em>Exemple :</em> Pour tolérer 1 traître, il faut au moins 4 généraux (3(1)+1 = 4)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">4. Mécanismes de Consensus : PoW vs PoS</div>
+      <p><b>Proof-of-Work (PoW) - "Minage"</b></p>
+      <ul>
+        <li><b>Principe :</b> Résoudre une énigme computationnelle complexe (SHA-256).</li>
+        <li><b>Fonctionnement :</b> Trouver un <b>nonce</b> tel que le Hash du bloc soit ≤ à une valeur cible (Target).</li>
+        <li><b>Avantage :</b> Sécurité robuste, première implémentation réelle de la tolérance aux pannes byzantines à grande échelle.</li>
+        <li><b>Inconvénients :</b> Énorme consommation électrique, faible scalabilité (ex: 7 TPS pour Bitcoin).</li>
+      </ul>
+      <hr>
+      <p><b>Proof-of-Stake (PoS) - "Forgeage"</b></p>
+      <ul>
+        <li><b>Principe :</b> Sélection des validateurs selon le montant de jetons "stakés" (verrouillés en garantie).</li>
+        <li><b>Avantages :</b> Efficacité énergétique, meilleure scalabilité.</li>
+        <li><b>Vulnérabilité (Nothing-at-stake) :</b> Les validateurs peuvent voter sur plusieurs forks simultanément sans coût, affaiblissant la sécurité.</li>
+      </ul>
+      <hr>
+      <p><b>Tableau Comparatif détaillé :</b></p>
+      <table>
+        <tr><th>Caractéristique</th><th>Proof-of-Work (PoW)</th><th>Proof-of-Stake (PoS)</th></tr>
+        <tr><td><b>Acteur clé</b></td><td>Mineurs</td><td>Validateurs</td></tr>
+        <tr><td><b>Ressource</b></td><td>Équipement et Énergie</td><td>Pièces/Tokens détenus</td></tr>
+        <tr><td><b>Sécurité</b></td><td>Coût d'attaque prohibitif</td><td>Contrôle par la communauté</td></tr>
+        <tr><td><b>Récompense</b></td><td>Nouveaux blocs + Frais</td><td>Frais de transaction</td></tr>
+        <tr><td><b>Vulnérabilité</b></td><td>Attaque 51% (Hash rate)</td><td>Problème "Nothing-at-stake"</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">5. Le Trilemme de la Blockchain</div>
+      <p>Un système distribué peine à satisfaire simultanément ces trois propriétés :</p>
+      <ul>
+        <li><b>1. Sécurité :</b> Protection contre les attaques et intégrité.</li>
+        <li><b>2. Décentralisation :</b> Absence d'autorité centrale.</li>
+        <li><b>3. Scalabilité :</b> Capacité à traiter un grand volume de transactions.</li>
+      </ul>
+      <div class="tip">💡 <em>Note :</em> Augmenter l'une de ces propriétés affaiblit généralement l'une des deux autres.</div>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">6. Comparaison des Technologies (Bitcoin, Ethereum, Hyperledger)</div>
+      <table>
+        <tr><th>Critère</th><th>Bitcoin</th><th>Ethereum</th><th>Hyperledger Fabric</th></tr>
+        <tr><td><b>Type</b></td><td>Publique (Ouverte)</td><td>Publique</td><td>Privée (Permissionnée)</td></tr>
+        <tr><td><b>Consensus</b></td><td>PoW</td><td>PoS (auparavant PoW)</td><td>PBFT / RAFT</td></tr>
+        <tr><td><b>Langage</b></td><td>Script (limité)</td><td>Solidity (Turing complet)</td><td>Go, Java, JS</td></tr>
+        <tr><td><b>Vitesse</b></td><td>~7 TPS</td><td>~15-20 TPS</td><td>>3500 TPS</td></tr>
+        <tr><td><b>Usage</b></td><td>Monétaire (FIAT alternatif)</td><td>Usage général (EVM)</td><td>Affaires / B2B (ex: Walmart)</td></tr>
+      </table>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">7. Smart Contracts (Contrats Intelligents)</div>
+      <p>Morceau de code et de données déployé sur une blockchain qui applique automatiquement les termes d'un accord.</p>
+      <p><b>Caractéristiques Techniques :</b></p>
+      <ul>
+        <li><b>Déterministe :</b> Même entrée = même résultat pour tous les participants (cohérence du réseau).</li>
+        <li><b>Immuable :</b> Une fois déployé, ne peut être ni modifié ni supprimé.</li>
+        <li><b>Vérifiable :</b> Possède une adresse unique sur la blockchain.</li>
+        <li><b>Gas (Ethereum) :</b> Chaque instruction a un coût prédéterminé pour limiter l'utilisation des ressources.</li>
+      </ul>
+      <p><b>Cycle d'Exécution :</b></p>
+      <ul>
+        <li>1. <b>Contrat prédéfini :</b> Termes codés et immuables</li>
+        <li>2. <b>Événement :</b> Déclencheur (ex: date, réception de données)</li>
+        <li>3. <b>Exécution :</b> Transfert automatique de valeur</li>
+        <li>4. <b>Règlement :</b> Paiement instantané et efficace</li>
+      </ul>
+    </div>
+    
+    <div class="sec teal">
+      <div class="sec-title">8. Sécurité et Attaques</div>
+      <p><b>Attaque 51% (PoW) :</b></p>
+      <ul>
+        <li><b>Définition :</b> Un groupe de mineurs contrôle >50% de la puissance de hachage du réseau.</li>
+        <li><b>Capacités de l'attaquant :</b> Double dépense (effacer une transaction), bloquer des transactions, réordonner les blocs récents.</li>
+        <li><b>Limites :</b> Ne peut pas créer de nouvelles pièces, voler des pièces existantes ou altérer les très vieux blocs.</li>
+      </ul>
+      <hr>
+      <p><b>Signature Numérique :</b></p>
+      <ul>
+        <li><b>Expéditeur :</b> Hache la transaction + chiffre avec sa <b>clé privée</b>.</li>
+        <li><b>Vérification :</b> Les nœuds utilisent la <b>clé publique</b> de l'expéditeur. Si le hash correspond, l'intégrité et l'identité sont prouvées.</li>
+      </ul>
+    </div>
 
     <div class="sec orange">
       <div class="sec-title">AOP – Programmation Orientée Aspects</div>
